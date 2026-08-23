@@ -1,0 +1,16 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["8RXBB9ZMFD.jaywithme.sudoku"],
+        "components": [
+          {
+            "/": "/open.html",
+            "?": { "c": "?*" },
+            "comment": "Shared-code links only, at the root of sudoku.jaywithme.com. Every other path on this domain stays a web page."
+          }
+        ]
+      }
+    ]
+  }
+}

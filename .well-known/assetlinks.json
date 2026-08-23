@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "jaywithme.sudoku",
+      "sha256_cert_fingerprints": [
+        "61:93:EC:D8:A2:A4:CD:CD:3A:BD:10:FA:08:6B:B4:BD:20:5F:61:49:3B:28:78:51:9C:82:76:62:34:BC:D8:1D"
+      ]
+    }
+  }
+]
