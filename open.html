@@ -19,6 +19,33 @@
   alert when the app is absent; unavoidable, the standard tradeoff), with the
   buttons and the raw code kept as the manual fallback.
 -->
+<meta name="description" content="초대 코드로 친구와 같은 퍼즐을 풀며 실시간 대결하는 스도쿠 앱, Sudoku League.">
+<!--
+  Open Graph / Twitter card. This is what KakaoTalk, iMessage, Discord and the
+  rest render when the link is pasted into a chat — without it they show a bare
+  URL, which is the moment an invite gets ignored.
+
+  Every URL here must be absolute: a crawler has no page context to resolve a
+  relative path against. og:image therefore points at the domain root, so
+  og_image.png has to be published alongside this file (README.md §2). Kakao
+  caches the result per URL — after changing any of this, clear it at
+  https://developers.kakao.com/tool/debugger/sharing or the old card sticks.
+
+  og:url stays the bare landing URL rather than the shared ?c=<code> one: the
+  card is about the app, not the code, and a per-code URL would fragment the
+  crawler cache for no gain.
+-->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sudoku.jaywithme.com/open.html">
+<meta property="og:title" content="Sudoku League — 스도쿠 리그">
+<meta property="og:description" content="친구가 보낸 퍼즐이 도착했어요. 같은 퍼즐로 실시간 대결하세요.">
+<meta property="og:image" content="https://sudoku.jaywithme.com/og_image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sudoku League — 스도쿠 리그">
+<meta name="twitter:description" content="친구가 보낸 퍼즐이 도착했어요. 같은 퍼즐로 실시간 대결하세요.">
+<meta name="twitter:image" content="https://sudoku.jaywithme.com/og_image.png">
 <style>
   body { max-width: 32rem; margin: 0 auto; padding: 3rem 1.25rem 4rem;
          font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
