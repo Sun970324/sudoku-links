@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sudoku League × Google Play 쿠폰</title>
+<title>Sudoku League 프리미엄 1개월 무료 쿠폰</title>
 <!--
   Promotion-code giveaway page. Staged here, published elsewhere: like
   open.html this file is copied to the root of the Sun970324/sudoku-links
@@ -17,16 +17,18 @@
   the page only works once it is published there (opening the local file gives
   a CORS failure — that is expected, not a bug in the page).
 
-  The stock is finite and one code per device is enforced by the token in
-  localStorage, which the function hands back on the first claim. Clearing
-  site data therefore yields a second code; accepted, see the function's head
-  comment.
+  Two independent stocks — Google Play promotion codes and App Store offer
+  codes — each with its own button, counter, token and sold-out state. A device
+  may take one of each, because a code for the store it is not on is worthless
+  to whoever holds it; the per-platform token in localStorage is what stops it
+  taking two of the same. Clearing site data therefore yields a second code;
+  accepted, see the function's head comment.
 -->
 <meta name="description" content="Sudoku League 프리미엄 구독 1개월 무료 프로모션 코드를 선착순으로 드려요.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sudoku.jaywithme.com/coupon.html">
 <meta property="og:title" content="Sudoku League — 프리미엄 1개월 무료 쿠폰">
-<meta property="og:description" content="Google Play 프로모션 코드를 선착순으로 드려요. 수량 한정, 기기당 1개.">
+<meta property="og:description" content="Google Play·App Store 쿠폰을 선착순으로 드려요. 수량 한정, 기기당 1개.">
 <meta property="og:image" content="https://sudoku.jaywithme.com/og_image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -37,10 +39,6 @@
          color: #1c1c1e; background: #fff; text-align: center; }
   h1 { font-size: 1.5rem; margin: 0 0 .5rem; }
   p.lead { color: #55555c; margin: 0 0 1.5rem; }
-  .remaining { display: inline-block; margin: 0 0 1.5rem; padding: .35rem .9rem;
-               border-radius: 999px; background: #f0f0f3; color: #55555c;
-               font-size: .9rem; }
-  .remaining b { color: #0b62d0; }
   .btn { display: block; margin: .6rem 0; padding: .85rem 1rem;
          border: 1px solid #d1d1d6; border-radius: .7rem;
          text-decoration: none; color: #1c1c1e; background: #f6f6f8;
@@ -58,7 +56,10 @@
   .hint { font-size: .85rem; color: #77777e; margin-top: 1.5rem; }
   .note { font-size: .9rem; color: #55555c; margin: .9rem 0 0; }
   .steps { text-align: left; font-size: .9rem; color: #55555c;
-           margin: 1.5rem 0 0; padding-left: 1.2rem; }
+           margin: 1rem 0 0; padding-left: 1.2rem; }
+  .card { display: none; margin-top: 1.5rem; padding-top: 1rem;
+          border-top: 1px solid #e4e4e8; }
+  .card.on { display: block; }
   .state { display: none; }
   .state.on { display: block; }
   @media (prefers-color-scheme: dark) {
@@ -69,49 +70,56 @@
     .btn { background: #232327; border-color: #3a3a3e; color: #ececf1; }
     .btn.primary { background: #0b62d0; border-color: #0b62d0; color: #fff; }
     code { background: #232327; }
+    .card { border-top-color: #2c2c31; }
     .hint { color: #86868e; }
   }
 </style>
 </head>
 <body>
-<h1>Sudoku League × Google Play 쿠폰</h1>
+<h1>Sudoku League 프리미엄 1개월 무료 쿠폰</h1>
 <p class="lead">
-  프리미엄 구독 <b>1개월 무료</b> 프로모션 코드를 드려요.<br>
-  수량 한정 선착순이고, 기기당 1개까지 받을 수 있어요.
+  프리미엄 구독 <b>1개월 무료</b> 쿠폰을 드려요.<br>
+  수량 한정 선착순이고, 스토어별로 기기당 1개까지 받을 수 있어요.
 </p>
 
-<div class="remaining" id="remaining">남은 수량을 확인하는 중…</div>
+<!-- 발급 버튼 (플랫폼별로 독립. 품절이면 그 버튼만 비활성 — 남은 수량은 표시하지 않는다) -->
+<button class="btn primary big" id="claimAndroid" type="button">▶ Google Play 쿠폰 발급하기</button>
+<button class="btn primary big" id="claimIos" type="button">🍎 App Store 쿠폰 발급하기</button>
 
-<!-- 1. 발급 전 -->
-<div class="state on" id="stateIdle">
-  <button class="btn primary big" id="claim" type="button">쿠폰 발급하기</button>
-</div>
-
-<!-- 2. 발급 완료 -->
-<div class="state" id="stateClaimed">
+<!-- 발급 완료 카드 — 둘 다 받으면 둘 다 보인다 -->
+<div class="card" id="cardAndroid">
   <div class="code-block">
-    <h2>내 프로모션 코드</h2>
-    <code id="code"></code>
-    <button class="btn" id="copy" type="button">코드 복사</button>
-    <a class="btn primary" id="redeem" href="#" target="_blank" rel="noopener">Google Play에서 사용하기</a>
+    <h2>내 Google Play 코드</h2>
+    <code id="codeAndroid"></code>
+    <button class="btn" id="copyAndroid" type="button">코드 복사</button>
+    <a class="btn primary" id="redeemAndroid" href="#" target="_blank" rel="noopener">Google Play에서 사용하기</a>
   </div>
-  <p class="note" id="reused" style="display:none">
+  <p class="note" id="reusedAndroid" style="display:none">
     이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.
   </p>
   <ol class="steps">
-    <li>Android 기기의 <b>Google Play 스토어</b>에서 코드를 사용하세요.</li>
+    <li><b>Android 기기</b>의 Google Play 스토어에서 코드를 사용하세요.</li>
     <li>사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</li>
   </ol>
 </div>
 
-<!-- 3. 품절 -->
-<div class="state" id="stateSoldOut">
-  <p><b>쿠폰이 모두 소진되었어요.</b></p>
-  <p class="note">준비한 수량이 전부 나갔어요. 다음 프로모션을 기다려 주세요.</p>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku">Google Play에서 앱 받기</a>
+<div class="card" id="cardIos">
+  <div class="code-block">
+    <h2>내 App Store 코드</h2>
+    <code id="codeIos"></code>
+    <button class="btn" id="copyIos" type="button">코드 복사</button>
+    <a class="btn primary" id="redeemIos" href="#" target="_blank" rel="noopener">App Store에서 사용하기</a>
+  </div>
+  <p class="note" id="reusedIos" style="display:none">
+    이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.
+  </p>
+  <ol class="steps">
+    <li><b>iPhone·iPad</b>에서 링크를 열어 코드를 사용하세요.</li>
+    <li>사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</li>
+  </ol>
 </div>
 
-<!-- 4. 네트워크 오류 -->
+<!-- 네트워크 오류 (플랫폼 공용) -->
 <div class="state" id="stateError">
   <p><b>연결에 실패했어요.</b></p>
   <p class="note" id="errorDetail">잠시 후 다시 시도해 주세요.</p>
@@ -119,114 +127,162 @@
 </div>
 
 <p class="hint">
-  프로모션 코드는 <b>Android의 Google Play에서만</b> 사용할 수 있어요.
-  iPhone·PC에서는 코드를 복사해 두었다가 Android 기기에서 사용하세요.
+  <b>Google Play 코드는 Android에서</b>, <b>App Store 코드는 iPhone·iPad에서</b>만
+  사용할 수 있어요. PC에서는 코드를 복사해 두었다가 해당 기기에서 사용하세요.
 </p>
 
 <script>
   var FUNCTION_URL =
     'https://nxzbgkyemozqalhdtbuy.supabase.co/functions/v1/claim-coupon';
-  // Where a Play promotion code is redeemed. Prefilled with the code so the
-  // player only has to confirm.
-  var REDEEM_URL = 'https://play.google.com/redeem?code=';
-  // One key, one code. Its presence is the whole per-device limit.
-  var TOKEN_KEY = 'sl_coupon_token';
+
+  // Per-platform everything: where the code is redeemed, which localStorage
+  // key holds its token, and which DOM ids belong to it.
+  var PLATFORMS = {
+    android: {
+      label: 'Google Play',
+      button: '▶ Google Play 쿠폰 발급하기',
+      redeem: 'https://play.google.com/redeem?code=',
+      // One key, one code. Its presence is the whole per-device limit.
+      tokenKey: 'sl_coupon_token_android'
+    },
+    ios: {
+      label: 'App Store',
+      button: '🍎 App Store 쿠폰 발급하기',
+      redeem: 'https://apps.apple.com/redeem?ctx=offercodes&id=6794986328&code=',
+      tokenKey: 'sl_coupon_token_ios'
+    }
+  };
+
+  // The key used when Play was the only stock. Whoever holds one already has
+  // an Android code, so it is moved rather than dropped — otherwise their next
+  // tap burns a second code.
+  var LEGACY_TOKEN_KEY = 'sl_coupon_token';
 
   var el = function (id) { return document.getElementById(id); };
+  var cap = function (name) { return name === 'ios' ? 'Ios' : 'Android'; };
 
   // localStorage throws in Safari private mode / when cookies are blocked.
-  // Losing the token there costs one extra code at worst, so both accessors
-  // fail quietly rather than breaking the page.
-  function readToken() {
-    try { return window.localStorage.getItem(TOKEN_KEY); } catch (e) { return null; }
+  // Losing the token there costs one extra code at worst, so every accessor
+  // fails quietly rather than breaking the page.
+  function readToken(platform) {
+    try {
+      return window.localStorage.getItem(PLATFORMS[platform].tokenKey);
+    } catch (e) { return null; }
   }
-  function writeToken(token) {
-    try { window.localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+  function writeToken(platform, token) {
+    try {
+      window.localStorage.setItem(PLATFORMS[platform].tokenKey, token);
+    } catch (e) {}
+  }
+  function migrateLegacyToken() {
+    try {
+      var legacy = window.localStorage.getItem(LEGACY_TOKEN_KEY);
+      if (!legacy) return;
+      if (!window.localStorage.getItem(PLATFORMS.android.tokenKey)) {
+        window.localStorage.setItem(PLATFORMS.android.tokenKey, legacy);
+      }
+      window.localStorage.removeItem(LEGACY_TOKEN_KEY);
+    } catch (e) {}
   }
 
-  // Exactly one of the four states is visible at a time.
-  function show(id) {
-    var states = ['stateIdle', 'stateClaimed', 'stateSoldOut', 'stateError'];
-    for (var i = 0; i < states.length; i++) {
-      el(states[i]).className = states[i] === id ? 'state on' : 'state';
+  // Counts are deliberately not shown — the only thing the stock number does
+  // is flip a button to "품절" when it hits zero (and never over a card that
+  // is already showing a code).
+  function applyStock(platform, remaining) {
+    if (typeof remaining !== 'number' || isNaN(remaining)) return;
+    if (remaining <= 0 && !el('card' + cap(platform)).className.match(/on/)) {
+      var button = el('claim' + cap(platform));
+      button.disabled = true;
+      button.textContent = PLATFORMS[platform].label + ' 쿠폰 품절';
     }
   }
 
-  function showRemaining(remaining) {
-    if (typeof remaining !== 'number' || isNaN(remaining)) {
-      el('remaining').textContent = '';
-      el('remaining').style.display = 'none';
-      return;
-    }
-    el('remaining').style.display = 'inline-block';
-    el('remaining').innerHTML = remaining > 0
-      ? '남은 수량 <b>' + remaining + '</b>개'
-      : '남은 수량 <b>0</b>개';
-  }
-
-  function showCode(code, reused) {
-    el('code').textContent = code;
-    el('redeem').href = REDEEM_URL + encodeURIComponent(code);
-    el('reused').style.display = reused ? 'block' : 'none';
-    el('copy').textContent = '코드 복사';
-    show('stateClaimed');
+  function showCode(platform, code, reused) {
+    var suffix = cap(platform);
+    el('code' + suffix).textContent = code;
+    el('redeem' + suffix).href =
+      PLATFORMS[platform].redeem + encodeURIComponent(code);
+    el('reused' + suffix).style.display = reused ? 'block' : 'none';
+    el('copy' + suffix).textContent = '코드 복사';
+    el('card' + suffix).className = 'card on';
+    // The code is in hand; asking again would only return the same one.
+    el('claim' + suffix).disabled = true;
+    el('claim' + suffix).textContent = PLATFORMS[platform].label + ' 쿠폰 발급 완료';
+    el('stateError').className = 'state';
   }
 
   function showError(message) {
     el('errorDetail').textContent = message || '잠시 후 다시 시도해 주세요.';
-    show('stateError');
+    el('stateError').className = 'state on';
   }
 
-  // Load: how many are left. A failure here is not fatal — the button still
-  // works — so it only blanks the counter.
+  // Load: check each stock only to flip sold-out buttons. A failure here is
+  // not fatal — the buttons still work — so it is swallowed.
   function loadRemaining() {
     fetch(FUNCTION_URL, { method: 'GET' })
       .then(function (response) { return response.json(); })
-      .then(function (data) { showRemaining(data.remaining); })
-      .catch(function () { showRemaining(null); });
+      .then(function (data) {
+        applyStock('android', Number(data.android || 0));
+        applyStock('ios', Number(data.ios || 0));
+      })
+      .catch(function () {});
   }
 
-  function claim() {
-    var button = el('claim');
+  function claim(platform) {
+    var suffix = cap(platform);
+    var button = el('claim' + suffix);
+    var idle = PLATFORMS[platform].button;
     button.disabled = true;
     button.textContent = '발급하는 중…';
 
-    var token = readToken();
+    var token = readToken(platform);
     fetch(FUNCTION_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: token })
+      body: JSON.stringify({ token: token, platform: platform })
     })
       .then(function (response) { return response.json(); })
       .then(function (data) {
         button.disabled = false;
-        button.textContent = '쿠폰 발급하기';
+        button.textContent = idle;
         if (data.error) { showError(data.error); return; }
-        showRemaining(data.remaining);
-        if (data.soldOut || !data.code) { show('stateSoldOut'); return; }
-        if (data.token) writeToken(data.token);
+        if (data.soldOut || !data.code) {
+          button.disabled = true;
+          button.textContent = PLATFORMS[platform].label + ' 쿠폰 품절';
+          return;
+        }
+        if (data.token) writeToken(platform, data.token);
         // We sent a token and got a code back: this device already had one.
-        showCode(data.code, Boolean(token));
+        showCode(platform, data.code, Boolean(token));
       })
       .catch(function () {
         button.disabled = false;
-        button.textContent = '쿠폰 발급하기';
+        button.textContent = idle;
         showError('네트워크에 연결할 수 없어요.');
       });
   }
 
-  el('claim').addEventListener('click', claim);
+  function wire(platform) {
+    var suffix = cap(platform);
+    el('claim' + suffix).addEventListener('click', function () {
+      claim(platform);
+    });
+    el('copy' + suffix).addEventListener('click', function () {
+      var text = el('code' + suffix).textContent;
+      var done = function () { el('copy' + suffix).textContent = '복사했어요'; };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      }
+    });
+  }
+
+  migrateLegacyToken();
+  wire('android');
+  wire('ios');
+
   el('retry').addEventListener('click', function () {
-    show('stateIdle');
+    el('stateError').className = 'state';
     loadRemaining();
-    claim();
-  });
-  el('copy').addEventListener('click', function () {
-    var text = el('code').textContent;
-    var done = function () { el('copy').textContent = '복사했어요'; };
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(done, function () {});
-    }
   });
 
   loadRemaining();
