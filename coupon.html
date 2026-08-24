@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudoku League × Google Play 쿠폰</title>
+<!--
+  Promotion-code giveaway page. Staged here, published elsewhere: like
+  open.html this file is copied to the root of the Sun970324/sudoku-links
+  repository, served by GitHub Pages at https://sudoku.jaywithme.com/ (see
+  README.md in this folder). Nothing copies it automatically — edit here, then
+  re-copy.
+
+  Self-contained on purpose: no external CSS, fonts, images or scripts. The
+  only network call it makes is to our own edge function, and the function
+  answers with a fixed Access-Control-Allow-Origin for this exact domain, so
+  the page only works once it is published there (opening the local file gives
+  a CORS failure — that is expected, not a bug in the page).
+
+  The stock is finite and one code per device is enforced by the token in
+  localStorage, which the function hands back on the first claim. Clearing
+  site data therefore yields a second code; accepted, see the function's head
+  comment.
+-->
+<meta name="description" content="Sudoku League 프리미엄 구독 1개월 무료 프로모션 코드를 선착순으로 드려요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sudoku.jaywithme.com/coupon.html">
+<meta property="og:title" content="Sudoku League — 프리미엄 1개월 무료 쿠폰">
+<meta property="og:description" content="Google Play 프로모션 코드를 선착순으로 드려요. 수량 한정, 기기당 1개.">
+<meta property="og:image" content="https://sudoku.jaywithme.com/og_image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  body { max-width: 32rem; margin: 0 auto; padding: 3rem 1.25rem 4rem;
+         font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+         color: #1c1c1e; background: #fff; text-align: center; }
+  h1 { font-size: 1.5rem; margin: 0 0 .5rem; }
+  p.lead { color: #55555c; margin: 0 0 1.5rem; }
+  .remaining { display: inline-block; margin: 0 0 1.5rem; padding: .35rem .9rem;
+               border-radius: 999px; background: #f0f0f3; color: #55555c;
+               font-size: .9rem; }
+  .remaining b { color: #0b62d0; }
+  .btn { display: block; margin: .6rem 0; padding: .85rem 1rem;
+         border: 1px solid #d1d1d6; border-radius: .7rem;
+         text-decoration: none; color: #1c1c1e; background: #f6f6f8;
+         font: inherit; width: 100%; cursor: pointer; box-sizing: border-box; }
+  .btn.primary { background: #0b62d0; border-color: #0b62d0; color: #fff;
+                 font-weight: 600; }
+  .btn.big { padding: 1.05rem 1rem; font-size: 1.05rem; }
+  .btn[disabled] { opacity: .55; cursor: default; }
+  .code-block { margin: 1.5rem 0 0; }
+  .code-block h2 { font-size: .95rem; font-weight: 600; color: #55555c;
+                   margin: 0 0 .5rem; }
+  code { display: block; padding: 1rem .8rem; border-radius: .7rem;
+         background: #f0f0f3; font: 20px/1.4 ui-monospace, SFMono-Regular,
+         Menlo, monospace; letter-spacing: .06em; word-break: break-all; }
+  .hint { font-size: .85rem; color: #77777e; margin-top: 1.5rem; }
+  .note { font-size: .9rem; color: #55555c; margin: .9rem 0 0; }
+  .steps { text-align: left; font-size: .9rem; color: #55555c;
+           margin: 1.5rem 0 0; padding-left: 1.2rem; }
+  .state { display: none; }
+  .state.on { display: block; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #ececf1; background: #17171a; }
+    p.lead, .code-block h2, .note, .steps { color: #a0a0a8; }
+    .remaining { background: #232327; color: #a0a0a8; }
+    .remaining b { color: #6aa9f0; }
+    .btn { background: #232327; border-color: #3a3a3e; color: #ececf1; }
+    .btn.primary { background: #0b62d0; border-color: #0b62d0; color: #fff; }
+    code { background: #232327; }
+    .hint { color: #86868e; }
+  }
+</style>
+</head>
+<body>
+<h1>Sudoku League × Google Play 쿠폰</h1>
+<p class="lead">
+  프리미엄 구독 <b>1개월 무료</b> 프로모션 코드를 드려요.<br>
+  수량 한정 선착순이고, 기기당 1개까지 받을 수 있어요.
+</p>
+
+<div class="remaining" id="remaining">남은 수량을 확인하는 중…</div>
+
+<!-- 1. 발급 전 -->
+<div class="state on" id="stateIdle">
+  <button class="btn primary big" id="claim" type="button">쿠폰 발급하기</button>
+</div>
+
+<!-- 2. 발급 완료 -->
+<div class="state" id="stateClaimed">
+  <div class="code-block">
+    <h2>내 프로모션 코드</h2>
+    <code id="code"></code>
+    <button class="btn" id="copy" type="button">코드 복사</button>
+    <a class="btn primary" id="redeem" href="#" target="_blank" rel="noopener">Google Play에서 사용하기</a>
+  </div>
+  <p class="note" id="reused" style="display:none">
+    이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.
+  </p>
+  <ol class="steps">
+    <li>Android 기기의 <b>Google Play 스토어</b>에서 코드를 사용하세요.</li>
+    <li>사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</li>
+  </ol>
+</div>
+
+<!-- 3. 품절 -->
+<div class="state" id="stateSoldOut">
+  <p><b>쿠폰이 모두 소진되었어요.</b></p>
+  <p class="note">준비한 수량이 전부 나갔어요. 다음 프로모션을 기다려 주세요.</p>
+  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku">Google Play에서 앱 받기</a>
+</div>
+
+<!-- 4. 네트워크 오류 -->
+<div class="state" id="stateError">
+  <p><b>연결에 실패했어요.</b></p>
+  <p class="note" id="errorDetail">잠시 후 다시 시도해 주세요.</p>
+  <button class="btn primary" id="retry" type="button">다시 시도</button>
+</div>
+
+<p class="hint">
+  프로모션 코드는 <b>Android의 Google Play에서만</b> 사용할 수 있어요.
+  iPhone·PC에서는 코드를 복사해 두었다가 Android 기기에서 사용하세요.
+</p>
+
+<script>
+  var FUNCTION_URL =
+    'https://nxzbgkyemozqalhdtbuy.supabase.co/functions/v1/claim-coupon';
+  // Where a Play promotion code is redeemed. Prefilled with the code so the
+  // player only has to confirm.
+  var REDEEM_URL = 'https://play.google.com/redeem?code=';
+  // One key, one code. Its presence is the whole per-device limit.
+  var TOKEN_KEY = 'sl_coupon_token';
+
+  var el = function (id) { return document.getElementById(id); };
+
+  // localStorage throws in Safari private mode / when cookies are blocked.
+  // Losing the token there costs one extra code at worst, so both accessors
+  // fail quietly rather than breaking the page.
+  function readToken() {
+    try { return window.localStorage.getItem(TOKEN_KEY); } catch (e) { return null; }
+  }
+  function writeToken(token) {
+    try { window.localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+  }
+
+  // Exactly one of the four states is visible at a time.
+  function show(id) {
+    var states = ['stateIdle', 'stateClaimed', 'stateSoldOut', 'stateError'];
+    for (var i = 0; i < states.length; i++) {
+      el(states[i]).className = states[i] === id ? 'state on' : 'state';
+    }
+  }
+
+  function showRemaining(remaining) {
+    if (typeof remaining !== 'number' || isNaN(remaining)) {
+      el('remaining').textContent = '';
+      el('remaining').style.display = 'none';
+      return;
+    }
+    el('remaining').style.display = 'inline-block';
+    el('remaining').innerHTML = remaining > 0
+      ? '남은 수량 <b>' + remaining + '</b>개'
+      : '남은 수량 <b>0</b>개';
+  }
+
+  function showCode(code, reused) {
+    el('code').textContent = code;
+    el('redeem').href = REDEEM_URL + encodeURIComponent(code);
+    el('reused').style.display = reused ? 'block' : 'none';
+    el('copy').textContent = '코드 복사';
+    show('stateClaimed');
+  }
+
+  function showError(message) {
+    el('errorDetail').textContent = message || '잠시 후 다시 시도해 주세요.';
+    show('stateError');
+  }
+
+  // Load: how many are left. A failure here is not fatal — the button still
+  // works — so it only blanks the counter.
+  function loadRemaining() {
+    fetch(FUNCTION_URL, { method: 'GET' })
+      .then(function (response) { return response.json(); })
+      .then(function (data) { showRemaining(data.remaining); })
+      .catch(function () { showRemaining(null); });
+  }
+
+  function claim() {
+    var button = el('claim');
+    button.disabled = true;
+    button.textContent = '발급하는 중…';
+
+    var token = readToken();
+    fetch(FUNCTION_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: token })
+    })
+      .then(function (response) { return response.json(); })
+      .then(function (data) {
+        button.disabled = false;
+        button.textContent = '쿠폰 발급하기';
+        if (data.error) { showError(data.error); return; }
+        showRemaining(data.remaining);
+        if (data.soldOut || !data.code) { show('stateSoldOut'); return; }
+        if (data.token) writeToken(data.token);
+        // We sent a token and got a code back: this device already had one.
+        showCode(data.code, Boolean(token));
+      })
+      .catch(function () {
+        button.disabled = false;
+        button.textContent = '쿠폰 발급하기';
+        showError('네트워크에 연결할 수 없어요.');
+      });
+  }
+
+  el('claim').addEventListener('click', claim);
+  el('retry').addEventListener('click', function () {
+    show('stateIdle');
+    loadRemaining();
+    claim();
+  });
+  el('copy').addEventListener('click', function () {
+    var text = el('code').textContent;
+    var done = function () { el('copy').textContent = '복사했어요'; };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    }
+  });
+
+  loadRemaining();
+</script>
+</body>
+</html>
