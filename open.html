@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +18,13 @@
   scheme try then App Store after 1.6s — Safari shows a brief "invalid address"
   alert when the app is absent; unavoidable, the standard tradeoff), with the
   buttons and the raw code kept as the manual fallback.
+
+  Bilingual, one language at a time: both ko and en are in the markup and
+  html[data-lang] hides the other. The head script picks it before first paint
+  from localStorage 'sl_lang', else navigator.language; the toggle at the top
+  switches and persists it (same key as index.html / coupon.html). The two
+  strings this page writes from script — the lead line and the copy button —
+  are derived from a state, so a switch retranslates what is already on screen.
 -->
 <meta name="description" content="초대 코드로 친구와 같은 퍼즐을 풀며 실시간 대결하는 스도쿠 앱, Sudoku League.">
 <!--
@@ -68,6 +75,14 @@
                 background: #fff; color: #1c1c1e; cursor: pointer; }
   .hint { font-size: .85rem; color: #77777e; margin-top: 2.5rem; }
   #missing { display: none; }
+  /* One language at a time. Only the inactive one is hidden, so every element
+     keeps whatever display type it would otherwise have. */
+  html[data-lang="ko"] .en { display: none !important; }
+  html[data-lang="en"] .ko { display: none !important; }
+  .lang-switch { text-align: right; margin: 0 0 1rem; }
+  .lang-toggle { font: inherit; font-size: .85rem; color: #77777e;
+                 background: none; border: 0; padding: 0;
+                 text-decoration: underline; cursor: pointer; }
   @media (prefers-color-scheme: dark) {
     body { color: #ececf1; background: #17171a; }
     p.lead, .code-block h2 { color: #a0a0a8; }
@@ -76,32 +91,55 @@
     code { background: #232327; }
     button.copy { background: #232327; border-color: #3a3a3e; color: #ececf1; }
     .hint { color: #86868e; }
+    .lang-toggle { color: #86868e; }
   }
 </style>
+<script>
+  // Language before first paint, so the wrong one never flashes. A stored
+  // choice wins; otherwise the browser's own language decides. localStorage
+  // throws in Safari private mode, so every touch of it is guarded.
+  (function () {
+    var lang = null;
+    try { lang = window.localStorage.getItem('sl_lang'); } catch (e) {}
+    if (lang !== 'ko' && lang !== 'en') {
+      var tag = (navigator.languages && navigator.languages[0]) ||
+                navigator.language || 'en';
+      lang = String(tag).toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en';
+    }
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+  })();
+</script>
 </head>
 <body>
+<!-- The label is the language you would switch *to*, so it is the one hidden
+     while that language is active. -->
+<p class="lang-switch"><button class="lang-toggle" id="langToggle" type="button"><span class="ko">English</span><span class="en">한국어</span></button></p>
+
 <h1>Sudoku League</h1>
-<p class="lead" id="lead">초대 링크를 받았어요.</p>
+<!-- Filled by the script below, from leadState + the current language. The
+     head script has already fixed the language, so there is nothing to flash. -->
+<p class="lead" id="lead"></p>
 
 <div id="found">
-  <a class="btn primary" id="openApp" href="#">앱에서 열기</a>
+  <a class="btn primary" id="openApp" href="#"><span class="ko">앱에서 열기</span><span class="en">Open in the app</span></a>
   <!-- APPSTORE_URL: numeric App Store id 6794986328 (store_listing.md /
        STATUS_ARCHIVE 08-14, confirmed against itunes.apple.com/lookup). -->
-  <a class="btn" href="https://apps.apple.com/app/id6794986328">App Store에서 받기</a>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku">Google Play에서 받기</a>
+  <a class="btn" href="https://apps.apple.com/app/id6794986328"><span class="ko">App Store에서 받기</span><span class="en">Get it on the App Store</span></a>
+  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku"><span class="ko">Google Play에서 받기</span><span class="en">Get it on Google Play</span></a>
 
   <div class="code-block">
-    <h2>코드</h2>
+    <h2><span class="ko">코드</span><span class="en">Code</span></h2>
     <code id="code"></code>
-    <button class="copy" id="copy" type="button">코드 복사</button>
+    <button class="copy" id="copy" type="button"></button>
   </div>
-  <p class="hint">앱이 열리지 않으면 코드를 복사해 앱의 <b>코드 입력</b> 화면에 붙여넣으세요.</p>
+  <p class="hint"><span class="ko">앱이 열리지 않으면 코드를 복사해 앱의 <b>코드 입력</b> 화면에 붙여넣으세요.</span><span class="en">If the app doesn’t open, copy the code and paste it into the app’s <b>Enter code</b> screen.</span></p>
 </div>
 
 <div id="missing">
-  <p>이 링크에는 코드가 없어요. 친구가 보낸 링크를 다시 확인해 주세요.</p>
-  <a class="btn" href="https://apps.apple.com/app/id6794986328">App Store에서 받기</a>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku">Google Play에서 받기</a>
+  <p><span class="ko">이 링크에는 코드가 없어요. 친구가 보낸 링크를 다시 확인해 주세요.</span><span class="en">This link carries no code. Please check the link your friend sent.</span></p>
+  <a class="btn" href="https://apps.apple.com/app/id6794986328"><span class="ko">App Store에서 받기</span><span class="en">Get it on the App Store</span></a>
+  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku"><span class="ko">Google Play에서 받기</span><span class="en">Get it on Google Play</span></a>
 </div>
 
 <script>
@@ -114,10 +152,59 @@
   var PLAY_URL = 'https://play.google.com/store/apps/details?id=jaywithme.sudoku';
   var APPSTORE_URL = 'https://apps.apple.com/app/id6794986328';
 
+  // The only two strings this page writes from script. Nothing is spelled out
+  // at the call site: the lead and the copy button remember a *state*, and the
+  // text is derived from state + language, so switching language rewrites what
+  // is already on screen instead of leaving a stale "앱으로 연결 중…" behind.
+  var STRINGS = {
+    ko: {
+      invite: '초대 링크를 받았어요.',
+      connecting: '앱으로 연결 중…',
+      copyIdle: '코드 복사',
+      copied: '복사했어요'
+    },
+    en: {
+      invite: 'You’ve received an invite link.',
+      connecting: 'Opening the app…',
+      copyIdle: 'Copy code',
+      copied: 'Copied'
+    }
+  };
+
+  // Language-independent record of what is on screen.
+  // 'invite' | 'connecting' | 'none' — 'none' is the missing-code case, where
+  // the lead says nothing at all.
+  var leadState = 'invite';
+  var copyState = 'idle';
+
+  function currentLang() {
+    return document.documentElement.getAttribute('data-lang') === 'en'
+      ? 'en' : 'ko';
+  }
+
+  function render() {
+    var s = STRINGS[currentLang()];
+    document.getElementById('lead').textContent =
+      leadState === 'none' ? '' : s[leadState];
+    document.getElementById('copy').textContent =
+      copyState === 'copied' ? s.copied : s.copyIdle;
+  }
+
+  document.getElementById('langToggle').addEventListener('click', function () {
+    var next = currentLang() === 'ko' ? 'en' : 'ko';
+    document.documentElement.setAttribute('data-lang', next);
+    document.documentElement.lang = next;
+    try { window.localStorage.setItem('sl_lang', next); } catch (e) {}
+    render();
+  });
+
+  render();
+
   if (code === '') {
     document.getElementById('found').style.display = 'none';
     document.getElementById('missing').style.display = 'block';
-    document.getElementById('lead').textContent = '';
+    leadState = 'none';
+    render();
   } else {
     var scheme = 'sudokuleague://open?c=' + encodeURIComponent(code);
     // Chrome's native app-or-store branch: opens the app when installed,
@@ -134,7 +221,7 @@
     document.getElementById('code').textContent = code;
     document.getElementById('openApp').href = isAndroid ? intentUrl : scheme;
     document.getElementById('copy').addEventListener('click', function () {
-      var done = function () { document.getElementById('copy').textContent = '복사했어요'; };
+      var done = function () { copyState = 'copied'; render(); };
       if (navigator.clipboard) {
         navigator.clipboard.writeText(code).then(done, function () {});
       }
@@ -146,10 +233,12 @@
     // long-press-opened links do land here with the app present, hence: try
     // the app first, fall to the store only when nothing claimed the jump.
     if (isAndroid) {
-      document.getElementById('lead').textContent = '앱으로 연결 중…';
+      leadState = 'connecting';
+      render();
       location.replace(intentUrl);
     } else if (isIos) {
-      document.getElementById('lead').textContent = '앱으로 연결 중…';
+      leadState = 'connecting';
+      render();
       var fallback = setTimeout(function () {
         location.href = APPSTORE_URL;
       }, 1600);
