@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +16,12 @@
   answers with a fixed Access-Control-Allow-Origin for this exact domain, so
   the page only works once it is published there (opening the local file gives
   a CORS failure — that is expected, not a bug in the page).
+
+  Bilingual, but one language at a time: the page carries both ko and en, and
+  html[data-lang] hides the other. The head script picks it before first paint
+  from localStorage 'sl_lang', else navigator.language; the toggle at the top
+  switches and persists it (shared with index.html). Showing both at once is
+  what this replaced — it doubled the length of every line and read as noise.
 
   Two independent stocks — Google Play promotion codes and App Store offer
   codes — each with its own button, counter, token and sold-out state. A device
@@ -62,6 +68,14 @@
   .card.on { display: block; }
   .state { display: none; }
   .state.on { display: block; }
+  /* One language at a time. Only the inactive one is hidden, so every element
+     keeps whatever display type it would otherwise have. */
+  html[data-lang="ko"] .en { display: none !important; }
+  html[data-lang="en"] .ko { display: none !important; }
+  .lang-switch { text-align: right; margin: 0 0 1rem; }
+  .lang-toggle { font: inherit; font-size: .85rem; color: #77777e;
+                 background: none; border: 0; padding: 0;
+                 text-decoration: underline; cursor: pointer; }
   @media (prefers-color-scheme: dark) {
     body { color: #ececf1; background: #17171a; }
     p.lead, .code-block h2, .note, .steps { color: #a0a0a8; }
@@ -72,73 +86,96 @@
     code { background: #232327; }
     .card { border-top-color: #2c2c31; }
     .hint { color: #86868e; }
+    .lang-toggle { color: #86868e; }
   }
 </style>
+<script>
+  // Language before first paint, so the wrong one never flashes. A stored
+  // choice wins; otherwise the browser's own language decides. localStorage
+  // throws in Safari private mode, so every touch of it is guarded.
+  (function () {
+    var lang = null;
+    try { lang = window.localStorage.getItem('sl_lang'); } catch (e) {}
+    if (lang !== 'ko' && lang !== 'en') {
+      var tag = (navigator.languages && navigator.languages[0]) ||
+                navigator.language || 'en';
+      lang = String(tag).toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en';
+    }
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+  })();
+</script>
 </head>
 <body>
-<h1>Sudoku League 프리미엄 1개월 무료 쿠폰</h1>
+<!-- The label is the language you would switch *to*, so it is the one hidden
+     while that language is active. -->
+<p class="lang-switch"><button class="lang-toggle" id="langToggle" type="button"><span class="ko">English</span><span class="en">한국어</span></button></p>
+
+<h1><span class="ko">Sudoku League 프리미엄 1개월 무료 쿠폰</span><span class="en">Sudoku League — 1 Month of Premium, Free</span></h1>
 <p class="lead">
-  프리미엄 구독 <b>1개월 무료</b> 쿠폰을 드려요.<br>
-  수량 한정 선착순이고, 스토어별로 기기당 1개까지 받을 수 있어요.<br>
-  Get a coupon for <b>1 month of Premium, free</b>.<br>
-  First come, first served — one per device, per store.
+  <span class="ko">프리미엄 구독 <b>1개월 무료</b> 쿠폰을 드려요.<br>
+    수량 한정 선착순이고, 스토어별로 기기당 1개까지 받을 수 있어요.</span>
+  <span class="en">Get a coupon for <b>1 month of Premium, free</b>.<br>
+    First come, first served — one per device, per store.</span>
 </p>
 
-<!-- 발급 버튼 (플랫폼별로 독립. 품절이면 그 버튼만 비활성 — 남은 수량은 표시하지 않는다) -->
-<button class="btn primary big" id="claimAndroid" type="button">Google Play 쿠폰 발급하기 · Claim coupon</button>
-<button class="btn primary big" id="claimIos" type="button">App Store 쿠폰 발급하기 · Claim coupon</button>
+<!-- 발급 버튼 (플랫폼별로 독립. 품절이면 그 버튼만 비활성 — 남은 수량은 표시하지 않는다)
+     The labels below are the idle state; the script rewrites them from
+     STRINGS as soon as it runs, and on every language switch. -->
+<button class="btn primary big" id="claimAndroid" type="button"><span class="ko">Google Play 쿠폰 발급하기</span><span class="en">Get a Google Play coupon</span></button>
+<button class="btn primary big" id="claimIos" type="button"><span class="ko">App Store 쿠폰 발급하기</span><span class="en">Get an App Store coupon</span></button>
 
 <!-- 발급 완료 카드 — 둘 다 받으면 둘 다 보인다 -->
 <div class="card" id="cardAndroid">
   <div class="code-block">
-    <h2>내 Google Play 코드 · My Google Play code</h2>
+    <h2><span class="ko">내 Google Play 코드</span><span class="en">My Google Play code</span></h2>
     <code id="codeAndroid"></code>
-    <button class="btn" id="copyAndroid" type="button">코드 복사 · Copy</button>
-    <a class="btn primary" id="redeemAndroid" href="#" target="_blank" rel="noopener">Google Play에서 사용하기 · Redeem on Google Play</a>
+    <button class="btn" id="copyAndroid" type="button"><span class="ko">코드 복사</span><span class="en">Copy code</span></button>
+    <a class="btn primary" id="redeemAndroid" href="#" target="_blank" rel="noopener"><span class="ko">Google Play에서 사용하기</span><span class="en">Redeem on Google Play</span></a>
   </div>
   <p class="note" id="reusedAndroid" style="display:none">
-    이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.<br>
-    This device already claimed a code — showing the same one again.
+    <span class="ko">이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.</span>
+    <span class="en">This device already claimed a code — showing the same one again.</span>
   </p>
   <ol class="steps">
-    <li><b>Android 기기</b>의 Google Play 스토어에서 코드를 사용하세요.<br>
-      Redeem the code in the Google Play Store on an <b>Android device</b>.</li>
-    <li>사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.<br>
-      Then start a Premium subscription in the Sudoku League app — your first month is free.</li>
+    <li><span class="ko"><b>Android 기기</b>의 Google Play 스토어에서 코드를 사용하세요.</span>
+      <span class="en">Redeem the code in the Google Play Store on an <b>Android device</b>.</span></li>
+    <li><span class="ko">사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</span>
+      <span class="en">Then start a Premium subscription in the Sudoku League app — your first month is free.</span></li>
   </ol>
 </div>
 
 <div class="card" id="cardIos">
   <div class="code-block">
-    <h2>내 App Store 코드 · My App Store code</h2>
+    <h2><span class="ko">내 App Store 코드</span><span class="en">My App Store code</span></h2>
     <code id="codeIos"></code>
-    <button class="btn" id="copyIos" type="button">코드 복사 · Copy</button>
-    <a class="btn primary" id="redeemIos" href="#" target="_blank" rel="noopener">App Store에서 사용하기 · Redeem on the App Store</a>
+    <button class="btn" id="copyIos" type="button"><span class="ko">코드 복사</span><span class="en">Copy code</span></button>
+    <a class="btn primary" id="redeemIos" href="#" target="_blank" rel="noopener"><span class="ko">App Store에서 사용하기</span><span class="en">Redeem on the App Store</span></a>
   </div>
   <p class="note" id="reusedIos" style="display:none">
-    이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.<br>
-    This device already claimed a code — showing the same one again.
+    <span class="ko">이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.</span>
+    <span class="en">This device already claimed a code — showing the same one again.</span>
   </p>
   <ol class="steps">
-    <li><b>iPhone·iPad</b>에서 링크를 열어 코드를 사용하세요.<br>
-      Open the link on an <b>iPhone or iPad</b> to redeem the code.</li>
-    <li>사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.<br>
-      Then start a Premium subscription in the Sudoku League app — your first month is free.</li>
+    <li><span class="ko"><b>iPhone·iPad</b>에서 링크를 열어 코드를 사용하세요.</span>
+      <span class="en">Open the link on an <b>iPhone or iPad</b> to redeem the code.</span></li>
+    <li><span class="ko">사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</span>
+      <span class="en">Then start a Premium subscription in the Sudoku League app — your first month is free.</span></li>
   </ol>
 </div>
 
-<!-- 네트워크 오류 (플랫폼 공용) -->
+<!-- 네트워크 오류 (플랫폼 공용). errorDetail은 스크립트가 채운다. -->
 <div class="state" id="stateError">
-  <p><b>연결에 실패했어요. · Connection failed.</b></p>
-  <p class="note" id="errorDetail">잠시 후 다시 시도해 주세요. · Please try again in a moment.</p>
-  <button class="btn primary" id="retry" type="button">다시 시도 · Retry</button>
+  <p><b><span class="ko">연결에 실패했어요.</span><span class="en">Connection failed.</span></b></p>
+  <p class="note" id="errorDetail"></p>
+  <button class="btn primary" id="retry" type="button"><span class="ko">다시 시도</span><span class="en">Retry</span></button>
 </div>
 
 <p class="hint">
-  <b>Google Play 코드는 Android에서</b>, <b>App Store 코드는 iPhone·iPad에서</b>만
-  사용할 수 있어요. PC에서는 코드를 복사해 두었다가 해당 기기에서 사용하세요.<br>
-  Google Play codes work only on Android, App Store codes only on iPhone·iPad.
-  On a PC, copy the code and redeem it on the matching device.
+  <span class="ko"><b>Google Play 코드는 Android에서</b>, <b>App Store 코드는 iPhone·iPad에서</b>만
+    사용할 수 있어요. PC에서는 코드를 복사해 두었다가 해당 기기에서 사용하세요.</span>
+  <span class="en"><b>Google Play codes work only on Android</b>, <b>App Store codes only on iPhone·iPad</b>.
+    On a PC, copy the code and redeem it on the matching device.</span>
 </p>
 
 <script>
@@ -150,14 +187,12 @@
   var PLATFORMS = {
     android: {
       label: 'Google Play',
-      button: 'Google Play 쿠폰 발급하기 · Claim coupon',
       redeem: 'https://play.google.com/redeem?code=',
       // One key, one code. Its presence is the whole per-device limit.
       tokenKey: 'sl_coupon_token_android'
     },
     ios: {
       label: 'App Store',
-      button: 'App Store 쿠폰 발급하기 · Claim coupon',
       redeem: 'https://apps.apple.com/redeem?ctx=offercodes&id=6794986328&code=',
       tokenKey: 'sl_coupon_token_ios'
     }
@@ -168,8 +203,97 @@
   // tap burns a second code.
   var LEGACY_TOKEN_KEY = 'sl_coupon_token';
 
+  // Every string the script writes, per language. Nothing is spelled out at
+  // the call site: the buttons remember a *state*, and the label is derived
+  // from state + language, so switching language rewrites what is already on
+  // screen instead of leaving a stale "품절" behind.
+  var STRINGS = {
+    ko: {
+      idle: {
+        android: 'Google Play 쿠폰 발급하기',
+        ios: 'App Store 쿠폰 발급하기'
+      },
+      claiming: '발급하는 중…',
+      soldOut: function (label) { return label + ' 쿠폰 품절'; },
+      claimed: function (label) { return label + ' 쿠폰 발급 완료'; },
+      copyIdle: '코드 복사',
+      copied: '복사했어요',
+      errorDefault: '잠시 후 다시 시도해 주세요.',
+      errorNetwork: '네트워크에 연결할 수 없어요.'
+    },
+    en: {
+      idle: {
+        android: 'Get a Google Play coupon',
+        ios: 'Get an App Store coupon'
+      },
+      claiming: 'Claiming…',
+      soldOut: function (label) { return label + ' coupons sold out'; },
+      claimed: function (label) { return label + ' coupon claimed'; },
+      copyIdle: 'Copy code',
+      copied: 'Copied',
+      errorDefault: 'Please try again in a moment.',
+      errorNetwork: 'Couldn’t reach the network.'
+    }
+  };
+
   var el = function (id) { return document.getElementById(id); };
   var cap = function (name) { return name === 'ios' ? 'Ios' : 'Android'; };
+
+  // Language-independent record of what is on screen.
+  var claimState = { android: 'idle', ios: 'idle' };
+  var copyState = { android: 'idle', ios: 'idle' };
+  // 'default' | 'network' | 'server'. A server message cannot be translated,
+  // so it is kept verbatim and survives a language switch as-is.
+  var errorState = { kind: 'default', text: null };
+
+  function currentLang() {
+    return document.documentElement.getAttribute('data-lang') === 'en'
+      ? 'en' : 'ko';
+  }
+  function strings() { return STRINGS[currentLang()]; }
+
+  function renderClaim(platform) {
+    var s = strings();
+    var label = PLATFORMS[platform].label;
+    var button = el('claim' + cap(platform));
+    var state = claimState[platform];
+    if (state === 'claiming') button.textContent = s.claiming;
+    else if (state === 'soldout') button.textContent = s.soldOut(label);
+    else if (state === 'claimed') button.textContent = s.claimed(label);
+    else button.textContent = s.idle[platform];
+  }
+
+  function renderCopy(platform) {
+    var s = strings();
+    el('copy' + cap(platform)).textContent =
+      copyState[platform] === 'copied' ? s.copied : s.copyIdle;
+  }
+
+  function renderError() {
+    var s = strings();
+    if (errorState.kind === 'server') {
+      el('errorDetail').textContent = errorState.text;
+    } else if (errorState.kind === 'network') {
+      el('errorDetail').textContent = s.errorNetwork;
+    } else {
+      el('errorDetail').textContent = s.errorDefault;
+    }
+  }
+
+  function render() {
+    renderClaim('android');
+    renderClaim('ios');
+    renderCopy('android');
+    renderCopy('ios');
+    renderError();
+  }
+
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    try { window.localStorage.setItem('sl_lang', lang); } catch (e) {}
+    render();
+  }
 
   // localStorage throws in Safari private mode / when cookies are blocked.
   // Losing the token there costs one extra code at worst, so every accessor
@@ -196,14 +320,14 @@
   }
 
   // Counts are deliberately not shown — the only thing the stock number does
-  // is flip a button to "품절" when it hits zero (and never over a card that
+  // is flip a button to sold out when it hits zero (and never over a card that
   // is already showing a code).
   function applyStock(platform, remaining) {
     if (typeof remaining !== 'number' || isNaN(remaining)) return;
     if (remaining <= 0 && !el('card' + cap(platform)).className.match(/on/)) {
-      var button = el('claim' + cap(platform));
-      button.disabled = true;
-      button.textContent = PLATFORMS[platform].label + ' 쿠폰 품절 · Sold out';
+      el('claim' + cap(platform)).disabled = true;
+      claimState[platform] = 'soldout';
+      renderClaim(platform);
     }
   }
 
@@ -213,18 +337,32 @@
     el('redeem' + suffix).href =
       PLATFORMS[platform].redeem + encodeURIComponent(code);
     el('reused' + suffix).style.display = reused ? 'block' : 'none';
-    el('copy' + suffix).textContent = '코드 복사 · Copy';
+    copyState[platform] = 'idle';
+    renderCopy(platform);
     el('card' + suffix).className = 'card on';
     // The code is in hand; asking again would only return the same one.
     el('claim' + suffix).disabled = true;
-    el('claim' + suffix).textContent =
-      PLATFORMS[platform].label + ' 쿠폰 발급 완료 · Claimed';
+    claimState[platform] = 'claimed';
+    renderClaim(platform);
     el('stateError').className = 'state';
   }
 
   function showError(message) {
-    el('errorDetail').textContent =
-      message || '잠시 후 다시 시도해 주세요. · Please try again in a moment.';
+    if (message) {
+      errorState.kind = 'server';
+      errorState.text = message;
+    } else {
+      errorState.kind = 'default';
+      errorState.text = null;
+    }
+    renderError();
+    el('stateError').className = 'state on';
+  }
+
+  function showNetworkError() {
+    errorState.kind = 'network';
+    errorState.text = null;
+    renderError();
     el('stateError').className = 'state on';
   }
 
@@ -243,9 +381,9 @@
   function claim(platform) {
     var suffix = cap(platform);
     var button = el('claim' + suffix);
-    var idle = PLATFORMS[platform].button;
     button.disabled = true;
-    button.textContent = '발급하는 중… · Claiming…';
+    claimState[platform] = 'claiming';
+    renderClaim(platform);
 
     var token = readToken(platform);
     fetch(FUNCTION_URL, {
@@ -256,12 +394,13 @@
       .then(function (response) { return response.json(); })
       .then(function (data) {
         button.disabled = false;
-        button.textContent = idle;
+        claimState[platform] = 'idle';
+        renderClaim(platform);
         if (data.error) { showError(data.error); return; }
         if (data.soldOut || !data.code) {
           button.disabled = true;
-          button.textContent =
-            PLATFORMS[platform].label + ' 쿠폰 품절 · Sold out';
+          claimState[platform] = 'soldout';
+          renderClaim(platform);
           return;
         }
         if (data.token) writeToken(platform, data.token);
@@ -270,8 +409,9 @@
       })
       .catch(function () {
         button.disabled = false;
-        button.textContent = idle;
-        showError('네트워크에 연결할 수 없어요. · Couldn’t reach the network.');
+        claimState[platform] = 'idle';
+        renderClaim(platform);
+        showNetworkError();
       });
   }
 
@@ -283,13 +423,18 @@
     el('copy' + suffix).addEventListener('click', function () {
       var text = el('code' + suffix).textContent;
       var done = function () {
-        el('copy' + suffix).textContent = '복사했어요 · Copied';
+        copyState[platform] = 'copied';
+        renderCopy(platform);
       };
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(done, function () {});
       }
     });
   }
+
+  el('langToggle').addEventListener('click', function () {
+    setLang(currentLang() === 'ko' ? 'en' : 'ko');
+  });
 
   migrateLegacyToken();
   wire('android');
@@ -300,6 +445,7 @@
     loadRemaining();
   });
 
+  render();
   loadRemaining();
 </script>
 </body>
