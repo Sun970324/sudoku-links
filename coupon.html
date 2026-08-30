@@ -63,6 +63,20 @@
   .note { font-size: .9rem; color: #55555c; margin: .9rem 0 0; }
   .steps { text-align: left; font-size: .9rem; color: #55555c;
            margin: 1rem 0 0; padding-left: 1.2rem; }
+  .steps li { margin: .45rem 0; }
+  .steps li b { color: #1c1c1e; }
+  .stepstitle { text-align: left; font-size: .9rem; font-weight: 600;
+                color: #1c1c1e; margin: 1.4rem 0 0; }
+  /* The order of operations is the whole point of this box: a code redeemed
+     while signed out binds premium to a throwaway guest account, and neither
+     the app nor the store can move it afterwards. Placed before the claim
+     button, not after — once the code is spent the advice is worthless. */
+  .notice { text-align: left; margin: 0 0 1.5rem; padding: .9rem 1rem;
+            border: 1px solid #f0d9a8; border-radius: .7rem;
+            background: #fdf6e6; font-size: .9rem; line-height: 1.6; }
+  .notice p { margin: 0; color: #6b5320; }
+  .notice p + p { margin-top: .5rem; }
+  .notice b { color: #4a3810; }
   .card { display: none; margin-top: 1.5rem; padding-top: 1rem;
           border-top: 1px solid #e4e4e8; }
   .card.on { display: block; }
@@ -87,6 +101,10 @@
     .card { border-top-color: #2c2c31; }
     .hint { color: #86868e; }
     .lang-toggle { color: #86868e; }
+    .steps li b, .stepstitle { color: #ececf1; }
+    .notice { background: #2a2418; border-color: #4d3f22; }
+    .notice p { color: #d8c79c; }
+    .notice b { color: #f2e4bd; }
   }
 </style>
 <script>
@@ -119,6 +137,23 @@
     First come, first served — one per device, per store.</span>
 </p>
 
+<!--
+  발급 버튼보다 먼저 온다. 코드를 이미 써 버린 사람에게는 이 안내가 아무 소용이
+  없기 때문이다 — 로그아웃 상태로 리딤하면 프리미엄이 그 기기의 게스트 계정에
+  묶이고, 스토어 쪽 코드는 이미 소진돼 되돌릴 방법이 양쪽 다 없다.
+-->
+<div class="notice">
+  <p><b><span class="ko">코드를 쓰기 전에 앱에서 먼저 로그인해 주세요.</span><span class="en">Sign in to the app before you redeem the code.</span></b></p>
+  <p>
+    <span class="ko">프리미엄은 <b>계정에 연결</b>돼요. 로그인하지 않은 게스트 상태로 코드를 쓰면
+      그 기기에만 남아서, 앱을 다시 설치하거나 기기를 바꾸면 <b>되돌릴 수 없어요.</b>
+      코드는 한 번만 쓸 수 있으니 아래 순서를 꼭 지켜 주세요.</span>
+    <span class="en">Premium is <b>tied to your account</b>. If you redeem while signed out as a guest,
+      it stays on that device only — reinstall the app or switch phones and it is
+      <b>gone for good</b>. A code can only be used once, so please follow the steps below.</span>
+  </p>
+</div>
+
 <!-- 발급 버튼 (플랫폼별로 독립. 품절이면 그 버튼만 비활성 — 남은 수량은 표시하지 않는다)
      The labels below are the idle state; the script rewrites them from
      STRINGS as soon as it runs, and on every language switch. -->
@@ -131,18 +166,28 @@
     <h2><span class="ko">내 Google Play 코드</span><span class="en">My Google Play code</span></h2>
     <code id="codeAndroid"></code>
     <button class="btn" id="copyAndroid" type="button"><span class="ko">코드 복사</span><span class="en">Copy code</span></button>
-    <a class="btn primary" id="redeemAndroid" href="#" target="_blank" rel="noopener"><span class="ko">Google Play에서 사용하기</span><span class="en">Redeem on Google Play</span></a>
   </div>
   <p class="note" id="reusedAndroid" style="display:none">
     <span class="ko">이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.</span>
     <span class="en">This device already claimed a code — showing the same one again.</span>
   </p>
+  <p class="stepstitle"><span class="ko">코드 적용 방법</span><span class="en">How to use your code</span></p>
   <ol class="steps">
-    <li><span class="ko"><b>Android 기기</b>의 Google Play 스토어에서 코드를 사용하세요.</span>
-      <span class="en">Redeem the code in the Google Play Store on an <b>Android device</b>.</span></li>
-    <li><span class="ko">사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</span>
-      <span class="en">Then start a Premium subscription in the Sudoku League app — your first month is free.</span></li>
+    <li><span class="ko">Sudoku League 앱을 설치하고 여세요.</span>
+      <span class="en">Install and open the Sudoku League app.</span></li>
+    <li><span class="ko"><b>마이페이지</b>에서 Google 또는 Apple 계정으로 <b>로그인</b>하세요.<br>
+        ‘게스트로 시작’이 아니라 <b>로그인</b>이어야 해요.</span>
+      <span class="en">In <b>My Page</b>, <b>sign in</b> with your Google or Apple account.<br>
+        It has to be <b>sign in</b> — not “Start as guest”.</span></li>
+    <li><span class="ko"><b>프리미엄 시작하기</b>를 누르세요.</span>
+      <span class="en">Tap <b>Start Premium</b>.</span></li>
+    <li><span class="ko"><b>‘프로모션 코드 사용’</b>을 눌러 위 코드를 입력하면 첫 달이 무료로 시작돼요.</span>
+      <span class="en">Tap <b>“Redeem promo code”</b> and enter the code above — your first month starts free.</span></li>
   </ol>
+  <p class="note">
+    <span class="ko">Google Play 코드라서 <b>Android 기기</b>에서만 쓸 수 있어요.</span>
+    <span class="en">This is a Google Play code, so it only works on an <b>Android device</b>.</span>
+  </p>
 </div>
 
 <div class="card" id="cardIos">
@@ -150,18 +195,28 @@
     <h2><span class="ko">내 App Store 코드</span><span class="en">My App Store code</span></h2>
     <code id="codeIos"></code>
     <button class="btn" id="copyIos" type="button"><span class="ko">코드 복사</span><span class="en">Copy code</span></button>
-    <a class="btn primary" id="redeemIos" href="#" target="_blank" rel="noopener"><span class="ko">App Store에서 사용하기</span><span class="en">Redeem on the App Store</span></a>
   </div>
   <p class="note" id="reusedIos" style="display:none">
     <span class="ko">이미 발급받은 기기예요 — 같은 코드가 다시 표시됩니다.</span>
     <span class="en">This device already claimed a code — showing the same one again.</span>
   </p>
+  <p class="stepstitle"><span class="ko">코드 적용 방법</span><span class="en">How to use your code</span></p>
   <ol class="steps">
-    <li><span class="ko"><b>iPhone·iPad</b>에서 링크를 열어 코드를 사용하세요.</span>
-      <span class="en">Open the link on an <b>iPhone or iPad</b> to redeem the code.</span></li>
-    <li><span class="ko">사용 후 Sudoku League 앱에서 프리미엄 구독을 시작하면 첫 달이 무료예요.</span>
-      <span class="en">Then start a Premium subscription in the Sudoku League app — your first month is free.</span></li>
+    <li><span class="ko">Sudoku League 앱을 설치하고 여세요.</span>
+      <span class="en">Install and open the Sudoku League app.</span></li>
+    <li><span class="ko"><b>마이페이지</b>에서 Google 또는 Apple 계정으로 <b>로그인</b>하세요.<br>
+        ‘게스트로 시작’이 아니라 <b>로그인</b>이어야 해요.</span>
+      <span class="en">In <b>My Page</b>, <b>sign in</b> with your Google or Apple account.<br>
+        It has to be <b>sign in</b> — not “Start as guest”.</span></li>
+    <li><span class="ko"><b>프리미엄 시작하기</b>를 누르세요.</span>
+      <span class="en">Tap <b>Start Premium</b>.</span></li>
+    <li><span class="ko"><b>‘프로모션 코드 사용’</b>을 눌러 위 코드를 입력하면 첫 달이 무료로 시작돼요.</span>
+      <span class="en">Tap <b>“Redeem promo code”</b> and enter the code above — your first month starts free.</span></li>
   </ol>
+  <p class="note">
+    <span class="ko">App Store 코드라서 <b>iPhone·iPad</b>에서만 쓸 수 있어요.</span>
+    <span class="en">This is an App Store code, so it only works on an <b>iPhone or iPad</b>.</span>
+  </p>
 </div>
 
 <!-- 네트워크 오류 (플랫폼 공용). errorDetail은 스크립트가 채운다. -->
@@ -173,27 +228,33 @@
 
 <p class="hint">
   <span class="ko"><b>Google Play 코드는 Android에서</b>, <b>App Store 코드는 iPhone·iPad에서</b>만
-    사용할 수 있어요. PC에서는 코드를 복사해 두었다가 해당 기기에서 사용하세요.</span>
+    사용할 수 있어요. PC에서는 코드를 복사해 두었다가 해당 기기의 앱에서 입력하세요.</span>
   <span class="en"><b>Google Play codes work only on Android</b>, <b>App Store codes only on iPhone·iPad</b>.
-    On a PC, copy the code and redeem it on the matching device.</span>
+    On a PC, copy the code and enter it in the app on the matching device.</span>
 </p>
 
 <script>
   var FUNCTION_URL =
     'https://nxzbgkyemozqalhdtbuy.supabase.co/functions/v1/claim-coupon';
 
-  // Per-platform everything: where the code is redeemed, which localStorage
-  // key holds its token, and which DOM ids belong to it.
+  // Per-platform everything: which localStorage key holds its token, and which
+  // DOM ids belong to it.
+  //
+  // The store redeem URLs this used to carry are gone on purpose. Sending
+  // someone straight to Play/Apple to redeem is the fastest way to spend the
+  // code *before* they have an account for it to attach to — the entitlement
+  // then lands on whatever the app happens to be signed in as, and a guest is
+  // what it usually is. The page hands over the code and the order of steps
+  // instead, and the redemption itself happens inside the app, where
+  // "프로모션 코드 사용" sits behind a screen you must be signed in to reach.
   var PLATFORMS = {
     android: {
       label: 'Google Play',
-      redeem: 'https://play.google.com/redeem?code=',
       // One key, one code. Its presence is the whole per-device limit.
       tokenKey: 'sl_coupon_token_android'
     },
     ios: {
       label: 'App Store',
-      redeem: 'https://apps.apple.com/redeem?ctx=offercodes&id=6794986328&code=',
       tokenKey: 'sl_coupon_token_ios'
     }
   };
@@ -334,8 +395,6 @@
   function showCode(platform, code, reused) {
     var suffix = cap(platform);
     el('code' + suffix).textContent = code;
-    el('redeem' + suffix).href =
-      PLATFORMS[platform].redeem + encodeURIComponent(code);
     el('reused' + suffix).style.display = reused ? 'block' : 'none';
     copyState[platform] = 'idle';
     renderCopy(platform);
