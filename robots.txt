@@ -1,5 +1,7 @@
 User-agent: *
-# Shared-puzzle links carry a code each; there is nothing to index there.
-Disallow: /open.html
+# Nothing is disallowed on purpose. open.html (shared-puzzle links) would be
+# the obvious candidate, but link-preview bots such as KakaoTalk's honour
+# robots.txt, and blocking it would strip the preview card off every share.
+Allow: /
 
 Sitemap: https://sudoku.jaywithme.com/sitemap.xml
