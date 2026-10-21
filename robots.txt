@@ -1,0 +1,5 @@
+User-agent: *
+# Shared-puzzle links carry a code each; there is nothing to index there.
+Disallow: /open.html
+
+Sitemap: https://sudoku.jaywithme.com/sitemap.xml
