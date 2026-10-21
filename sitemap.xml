@@ -10,8 +10,6 @@
   <url><loc>https://sudoku.jaywithme.com/techniques/hidden-single.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/naked-pair.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/hidden-pair.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/naked-triple.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/hidden-triple.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/pointing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/claiming.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/x-wing.html</loc></url>
@@ -23,5 +21,4 @@
   <url><loc>https://sudoku.jaywithme.com/techniques/xy-chain.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/xy-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/xyz-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/unique-rectangle.html</loc></url>
 </urlset>
