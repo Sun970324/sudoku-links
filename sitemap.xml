@@ -7,61 +7,77 @@
   <url><loc>https://sudoku.jaywithme.com/data-deletion.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/legal.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/naked-single.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/peers.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/groups.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/strong-links.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/weak-links.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/bivalue-cells.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/chains.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/uniqueness.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/almost-locked-sets.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/hidden-single.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/naked-pair.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/hidden-pair.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/naked-single.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/pointing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/claiming.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/naked-pair.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/hidden-pair.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/x-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/finned-x-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/sashimi-x-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/swordfish.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/jellyfish.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/finned-x-wing.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/sashimi-x-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/skyscraper.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/two-string-kite.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/simple-coloring.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/multi-coloring.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/remote-pair.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/x-chain.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/xy-chain.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/aic.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/als-chain.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/xy-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/xyz-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/w-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/techniques/wxyz-wing.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/remote-pair.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/xy-chain.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/x-chain.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/simple-coloring.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/multi-coloring.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/aic.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/hidden-rectangle.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/bug-plus-one.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/wxyz-wing.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/techniques/als-chain.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/sue-de-coq.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/techniques/triple-firework.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/naked-single.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/peers.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/groups.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/strong-links.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/weak-links.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/bivalue-cells.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/chains.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/uniqueness.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/almost-locked-sets.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/hidden-single.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/naked-pair.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/hidden-pair.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/naked-single.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/pointing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/claiming.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/naked-pair.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/hidden-pair.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/x-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/finned-x-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/sashimi-x-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/swordfish.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/jellyfish.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/finned-x-wing.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/sashimi-x-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/skyscraper.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/two-string-kite.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/simple-coloring.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/multi-coloring.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/remote-pair.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/x-chain.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/xy-chain.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/aic.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/als-chain.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/xy-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/xyz-wing.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/w-wing.html</loc></url>
-  <url><loc>https://sudoku.jaywithme.com/en/techniques/wxyz-wing.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/remote-pair.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/xy-chain.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/x-chain.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/simple-coloring.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/multi-coloring.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/aic.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/hidden-rectangle.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/bug-plus-one.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/wxyz-wing.html</loc></url>
+  <url><loc>https://sudoku.jaywithme.com/en/techniques/als-chain.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/sue-de-coq.html</loc></url>
   <url><loc>https://sudoku.jaywithme.com/en/techniques/triple-firework.html</loc></url>
 </urlset>
