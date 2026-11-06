@@ -22,11 +22,11 @@
   Bilingual, one language at a time: both ko and en are in the markup and
   html[data-lang] hides the other. The head script picks it before first paint
   from localStorage 'sl_lang', else navigator.language; the toggle at the top
-  switches and persists it (same key as index.html). The two
+  switches and persists it (same key as index.html / coupon.html). The two
   strings this page writes from script — the lead line and the copy button —
   are derived from a state, so a switch retranslates what is already on screen.
 -->
-<meta name="description" content="초대 코드로 친구와 같은 퍼즐을 풀며 실시간 대결하는 스도쿠 앱, Sudoku League.">
+<meta name="description" content="함께 즐겨요. 스도쿠 리그!">
 <!--
   Open Graph / Twitter card. This is what KakaoTalk, iMessage, Discord and the
   rest render when the link is pasted into a chat — without it they show a bare
@@ -44,14 +44,14 @@
 -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sudoku.jaywithme.com/open.html">
-<meta property="og:title" content="Sudoku League — 스도쿠 리그">
-<meta property="og:description" content="친구가 보낸 퍼즐이 도착했어요. 같은 퍼즐로 실시간 대결하세요.">
+<meta property="og:title" content="Sudoku League - 스도쿠 리그">
+<meta property="og:description" content="함께 즐겨요. 스도쿠 리그!">
 <meta property="og:image" content="https://sudoku.jaywithme.com/og_image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sudoku League — 스도쿠 리그">
-<meta name="twitter:description" content="친구가 보낸 퍼즐이 도착했어요. 같은 퍼즐로 실시간 대결하세요.">
+<meta name="twitter:title" content="Sudoku League - 스도쿠 리그">
+<meta name="twitter:description" content="함께 즐겨요. 스도쿠 리그!">
 <meta name="twitter:image" content="https://sudoku.jaywithme.com/og_image.png">
 <style>
   body { max-width: 32rem; margin: 0 auto; padding: 3rem 1.25rem 4rem;
@@ -125,8 +125,8 @@
   <a class="btn primary" id="openApp" href="#"><span class="ko">앱에서 열기</span><span class="en">Open in the app</span></a>
   <!-- APPSTORE_URL: numeric App Store id 6794986328 (store_listing.md /
        STATUS_ARCHIVE 08-14, confirmed against itunes.apple.com/lookup). -->
-  <a class="btn" href="https://apps.apple.com/app/id6794986328"><span class="ko">App Store에서 받기</span><span class="en">Get it on the App Store</span></a>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku"><span class="ko">Google Play에서 받기</span><span class="en">Get it on Google Play</span></a>
+  <a class="btn" data-store="ios" href="https://apps.apple.com/app/id6794986328"><span class="ko">App Store에서 받기</span><span class="en">Get it on the App Store</span></a>
+  <a class="btn" data-store="play" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku"><span class="ko">Google Play에서 받기</span><span class="en">Get it on Google Play</span></a>
 
   <div class="code-block">
     <h2><span class="ko">코드</span><span class="en">Code</span></h2>
@@ -137,9 +137,9 @@
 </div>
 
 <div id="missing">
-  <p><span class="ko">이 링크에는 코드가 없어요. 친구가 보낸 링크를 다시 확인해 주세요.</span><span class="en">This link carries no code. Please check the link your friend sent.</span></p>
-  <a class="btn" href="https://apps.apple.com/app/id6794986328"><span class="ko">App Store에서 받기</span><span class="en">Get it on the App Store</span></a>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku"><span class="ko">Google Play에서 받기</span><span class="en">Get it on Google Play</span></a>
+  <p><span class="ko">이유를 알려주는 힌트와 실시간 랭크 대결로 배우는 스도쿠예요. 앱을 받아 오늘의 스도쿠에 도전해 보세요.</span><span class="en">Sudoku with hints that explain why, and live ranked matches. Get the app and try the Daily Sudoku.</span></p>
+  <a class="btn" data-store="ios" href="https://apps.apple.com/app/id6794986328"><span class="ko">App Store에서 받기</span><span class="en">Get it on the App Store</span></a>
+  <a class="btn" data-store="play" href="https://play.google.com/store/apps/details?id=jaywithme.sudoku"><span class="ko">Google Play에서 받기</span><span class="en">Get it on Google Play</span></a>
 </div>
 
 <script>
@@ -149,8 +149,22 @@
   var code = new URLSearchParams(location.search).get('c');
   code = code === null ? '' : code.trim();
 
-  var PLAY_URL = 'https://play.google.com/store/apps/details?id=jaywithme.sudoku';
-  var APPSTORE_URL = 'https://apps.apple.com/app/id6794986328';
+  // Campaign tag for the store links, so installs from an invite can be told
+  // apart from the site's other pages (docs/index.html tags its own). Same
+  // rule as the app's classifySharedCode: exactly 6 chars from the room-code
+  // alphabet (no 0/O/1/I/L), case-insensitive, is a friend room; any other
+  // code is a puzzle share code; no code is a plain invite. The untagged hrefs
+  // in the markup stay as the fallback if this script never runs.
+  var campaign = code === '' ? 'invite'
+    : /^[2-9A-HJKMNP-Z]{6}$/.test(code.toUpperCase()) ? 'invite-room'
+    : 'invite-puzzle';
+  var APPSTORE_URL = 'https://apps.apple.com/app/apple-store/id6794986328' +
+    '?pt=129224023&ct=' + campaign + '&mt=8';
+  var PLAY_URL = 'https://play.google.com/store/apps/details?id=jaywithme.sudoku' +
+    '&utm_source=sudoku.jaywithme.com&utm_medium=web&utm_campaign=' + campaign;
+  Array.prototype.forEach.call(document.querySelectorAll('a[data-store]'), function (el) {
+    el.href = el.getAttribute('data-store') === 'ios' ? APPSTORE_URL : PLAY_URL;
+  });
 
   // The only two strings this page writes from script. Nothing is spelled out
   // at the call site: the lead and the copy button remember a *state*, and the
@@ -172,8 +186,8 @@
   };
 
   // Language-independent record of what is on screen.
-  // 'invite' | 'connecting' | 'none' — 'none' is the missing-code case, where
-  // the lead says nothing at all.
+  // 'invite' | 'connecting' | 'none' — 'none' is the no-code case (the plain
+  // app link a daily share sends), where the lead says nothing at all.
   var leadState = 'invite';
   var copyState = 'idle';
 

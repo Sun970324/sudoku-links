@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudoku League - 스도쿠 리그</title>
+<!--
+  Shared-image page (decision 0076 §4). Staged here and published by hand to
+  the root of Sun970324/sudoku-links, next to open.html (README.md).
+
+  The app sends https://sudoku.jaywithme.com/s.html?id=<12>&k=<kind>... as one
+  line of text, and this page shows the picture the player chose, read from
+  the public share_images bucket. Unlike open.html the app does NOT claim this
+  path (apple-app-site-association and the Android manifest list /open.html
+  only), so a tap always lands here and shows the image; the button then opens
+  the app the way open.html does.
+
+  Query, every value checked before use and only ever written as textContent
+  or into a URL built from constants:
+    id  12 letters or digits, the object name without .png (required)
+    k   solo | daily | monthly (required)
+    c   a puzzle code, solo only: the button opens that puzzle
+    l   ko | en, the sharer's language, used when the reader has not chosen
+    e   d = the image is on the dev project (a debug build uploaded it)
+  Anything malformed, and an image that fails to load (deleted after 30 days),
+  shows the expired view.
+-->
+<meta name="description" content="함께 즐겨요. 스도쿠 리그!">
+<!-- One player's share, so not for search engines. -->
+<meta name="robots" content="noindex">
+<!-- Open Graph / Twitter card: the same card as open.html, so every link the
+     app sends previews alike (decision 0076 §4). Absolute URLs only. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sudoku.jaywithme.com/s.html">
+<meta property="og:title" content="Sudoku League - 스도쿠 리그">
+<meta property="og:description" content="함께 즐겨요. 스도쿠 리그!">
+<meta property="og:image" content="https://sudoku.jaywithme.com/og_image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sudoku League - 스도쿠 리그">
+<meta name="twitter:description" content="함께 즐겨요. 스도쿠 리그!">
+<meta name="twitter:image" content="https://sudoku.jaywithme.com/og_image.png">
+<style>
+  :root { --bg-top: #1C1440; --bg-bottom: #0D0B1E; --accent: #FFD24A;
+          --on-accent: #1C1440; }
+  body[data-kind="daily"] { --bg-top: #0f3a3a; --accent: #14B8A6;
+                            --on-accent: #062424; }
+  body[data-kind="monthly"] { --bg-top: #262a6a; --bg-bottom: #0a0c24; }
+  html { background: var(--bg-bottom); }
+  body { max-width: 26rem; min-height: 100vh; margin: 0 auto;
+         padding: 20px 24px 28px; box-sizing: border-box;
+         display: flex; flex-direction: column;
+         font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+               "Segoe UI", sans-serif;
+         color: #fff;
+         background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom) 60%); }
+  header { display: flex; align-items: center; gap: 8px; }
+  header img { width: 28px; height: 28px; border-radius: 7px; }
+  header span { font-size: 15px; font-weight: 700; }
+  .lang-toggle { margin-left: auto; font: inherit; font-size: 13px;
+                 color: rgba(255,255,255,.6); background: none; border: 0;
+                 padding: 0; text-decoration: underline; cursor: pointer; }
+  h1 { margin: 22px 0 0; font-size: 20px; font-weight: 700; line-height: 1.35; }
+  .shot { margin-top: 16px; width: 100%; aspect-ratio: 4 / 5; border-radius: 22px;
+          overflow: hidden; background: rgba(255,255,255,.06); }
+  .shot img { display: block; width: 100%; height: 100%; object-fit: contain;
+              opacity: 0; transition: opacity .2s; }
+  .shot img.loaded { opacity: 1; }
+  .actions { margin-top: auto; padding-top: 24px; }
+  .btn { display: flex; align-items: center; justify-content: center;
+         height: 54px; border-radius: 14px; text-decoration: none;
+         font-size: 17px; font-weight: 700;
+         background: var(--accent); color: var(--on-accent); }
+  .note { margin: 10px 0 0; text-align: center; font-size: 12px;
+          color: rgba(255,255,255,.6); }
+  #expired { flex: 1; display: none; flex-direction: column; }
+  #expired .middle { margin: auto 0; display: flex; flex-direction: column;
+                     align-items: center; text-align: center; gap: 12px; }
+  #expired .middle img { width: 120px; height: 120px; border-radius: 26px; }
+  #expired h1 { margin: 8px 0 0; }
+  #expired p { margin: 0; font-size: 14px; line-height: 1.55;
+               color: rgba(255,255,255,.7); }
+  #shared { flex: 1; display: flex; flex-direction: column; }
+  body.expired #shared { display: none; }
+  body.expired #expired { display: flex; }
+  /* One language at a time; only the inactive one is hidden. */
+  html[data-lang="ko"] .en { display: none !important; }
+  html[data-lang="en"] .ko { display: none !important; }
+</style>
+<script>
+  // Language before first paint: the reader's own stored choice, then the
+  // sharer's language from `l`, then the browser's. localStorage throws in
+  // Safari private mode, so every touch of it is guarded.
+  (function () {
+    var lang = null;
+    try { lang = window.localStorage.getItem('sl_lang'); } catch (e) {}
+    if (lang !== 'ko' && lang !== 'en') {
+      lang = new URLSearchParams(location.search).get('l');
+    }
+    if (lang !== 'ko' && lang !== 'en') {
+      var tag = (navigator.languages && navigator.languages[0]) ||
+                navigator.language || 'en';
+      lang = String(tag).toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en';
+    }
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+  })();
+</script>
+</head>
+<body>
+<header>
+  <img src="img/icon.png" alt="">
+  <span><span class="ko">스도쿠 리그</span><span class="en">Sudoku League</span></span>
+  <!-- The label is the language you would switch to. -->
+  <button class="lang-toggle" id="langToggle" type="button"><span class="ko">English</span><span class="en">한국어</span></button>
+</header>
+
+<main id="shared">
+  <h1 id="headline"></h1>
+  <div class="shot"><img id="shot" alt=""></div>
+  <div class="actions">
+    <a class="btn" id="openApp" href="https://sudoku.jaywithme.com/"></a>
+    <p class="note"><span class="ko">앱이 없으면 스토어로 이동해요</span><span class="en">No app yet? This takes you to the store</span></p>
+  </div>
+</main>
+
+<main id="expired">
+  <div class="middle">
+    <img src="img/icon.png" alt="">
+    <h1><span class="ko">기간이 지난 공유예요</span><span class="en">This share has expired</span></h1>
+    <p><span class="ko">공유된 기록은 30일 동안 볼 수 있어요.</span><span class="en">Shared records can be viewed for 30 days.</span></p>
+  </div>
+  <div class="actions">
+    <a class="btn" id="openAppExpired" href="https://sudoku.jaywithme.com/"><span class="ko">스도쿠 리그 열기</span><span class="en">Open Sudoku League</span></a>
+    <p class="note"><span class="ko">앱이 없으면 스토어로 이동해요</span><span class="en">No app yet? This takes you to the store</span></p>
+  </div>
+</main>
+
+<script>
+  // Both projects' public URLs. A debug build uploads to dev and says so
+  // with e=d; nothing else can pick the host.
+  var HOSTS = {
+    prod: 'https://nxzbgkyemozqalhdtbuy.supabase.co',
+    dev: 'https://myidkpljyqooeettknma.supabase.co'
+  };
+  var KINDS = ['solo', 'daily', 'monthly'];
+
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id');
+  var kind = params.get('k');
+  var code = params.get('c');
+  var valid = /^[A-Za-z0-9]{12}$/.test(id || '') && KINDS.indexOf(kind) >= 0;
+  // Only a solo share opens a puzzle; the shape is the app's own puzzle code
+  // (version '1' + base62, at most 48 chars: shared_code.dart).
+  code = kind === 'solo' && /^1[0-9A-Za-z]{10,47}$/.test(code || '') ? code : null;
+  var host = params.get('e') === 'd' ? HOSTS.dev : HOSTS.prod;
+
+  var STRINGS = {
+    ko: {
+      solo: '친구의 기록이 도착했어요',
+      daily: '친구가 오늘의 스도쿠를 풀었어요',
+      monthly: '친구가 이번 달 카드를 받았어요',
+      openPuzzle: '같은 퍼즐 풀어 보기',
+      openApp: '스도쿠 리그 열기'
+    },
+    en: {
+      solo: 'A friend sent you their record',
+      daily: 'A friend solved the Daily Sudoku',
+      monthly: 'A friend got this month’s card',
+      openPuzzle: 'Play the same puzzle',
+      openApp: 'Open Sudoku League'
+    }
+  };
+
+  function currentLang() {
+    return document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'ko';
+  }
+
+  function render() {
+    var s = STRINGS[currentLang()];
+    if (valid) document.getElementById('headline').textContent = s[kind];
+    document.getElementById('openApp').textContent = code ? s.openPuzzle : s.openApp;
+  }
+
+  function showExpired() {
+    document.body.classList.add('expired');
+  }
+
+  document.getElementById('langToggle').addEventListener('click', function () {
+    var next = currentLang() === 'ko' ? 'en' : 'ko';
+    document.documentElement.setAttribute('data-lang', next);
+    document.documentElement.lang = next;
+    try { window.localStorage.setItem('sl_lang', next); } catch (e) {}
+    render();
+  });
+
+  // Store links tagged by what was shared, so installs from a share can be
+  // told apart (open.html tags invites the same way).
+  var campaign = valid ? 'share-' + kind : 'share';
+  var APPSTORE_URL = 'https://apps.apple.com/app/apple-store/id6794986328' +
+    '?pt=129224023&ct=' + campaign + '&mt=8';
+  var PLAY_URL = 'https://play.google.com/store/apps/details?id=jaywithme.sudoku' +
+    '&utm_source=sudoku.jaywithme.com&utm_medium=web&utm_campaign=' + campaign;
+
+  var ua = navigator.userAgent;
+  var isAndroid = /android/i.test(ua);
+  var isIos = /iphone|ipad|ipod/i.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  // open.html's app-or-store jump, run on a tap instead of on arrival: this
+  // page exists to be looked at first. Android: Chrome's intent with the Play
+  // Store as its fallback. iOS: the scheme, then the App Store after 1.6s
+  // unless the app took the page away. Elsewhere the links stay on the
+  // intro page, which has both store buttons.
+  function wireOpen(el, withCode) {
+    var query = withCode && code ? '?c=' + encodeURIComponent(code) : '';
+    var scheme = 'sudokuleague://open' + query;
+    if (isAndroid) {
+      el.href = 'intent://open' + query +
+        '#Intent;scheme=sudokuleague;package=jaywithme.sudoku;' +
+        'S.browser_fallback_url=' + encodeURIComponent(PLAY_URL) + ';end';
+    } else if (isIos) {
+      el.href = scheme;
+      el.addEventListener('click', function (event) {
+        event.preventDefault();
+        var fallback = setTimeout(function () { location.href = APPSTORE_URL; }, 1600);
+        var cancel = function () { if (document.hidden) clearTimeout(fallback); };
+        document.addEventListener('visibilitychange', cancel);
+        window.addEventListener('pagehide', function () { clearTimeout(fallback); });
+        location.href = scheme;
+      });
+    }
+  }
+
+  wireOpen(document.getElementById('openApp'), true);
+  wireOpen(document.getElementById('openAppExpired'), false);
+
+  if (!valid) {
+    showExpired();
+  } else {
+    document.body.setAttribute('data-kind', kind);
+    var shot = document.getElementById('shot');
+    shot.addEventListener('load', function () { shot.classList.add('loaded'); });
+    shot.addEventListener('error', showExpired);
+    shot.src = host + '/storage/v1/object/public/share_images/' + id + '.png';
+  }
+  render();
+</script>
+</body>
+</html>
