@@ -122,9 +122,9 @@
 
 ■ 보관되는 데이터와 그 이유
 
-- 대결 기록(승패, 레이팅 변동, 대결 시각)과 데일리 스도쿠 기록은 삭제되지 않고
-  익명 처리된 상태로 남습니다. 하나의 대결 기록은 상대방의 전적이자 레이팅
-  이력이기도 하므로, 이를 지우면 다른 이용자의 기록이 함께 훼손되기 때문입니다.
+- 대결 기록(승패, 랭크 점수 변동, 대결 시각)과 데일리 스도쿠 기록은 삭제되지 않고
+  익명 처리된 상태로 남습니다. 하나의 대결 기록은 상대방의 전적이자 랭크
+  점수 이력이기도 하므로, 이를 지우면 다른 이용자의 기록이 함께 훼손되기 때문입니다.
   이 기록에서 이용자는 "탈퇴한 사용자"로만 표시되며, 개인을 식별할 수 있는
   정보는 남지 않습니다.
 - 신고 기록은 검토와 재발 방지를 위해 처리 완료 후 최대 1년간 보관한 뒤
@@ -137,7 +137,7 @@
 ■ 재가입 제한
 
 계정을 삭제한 뒤 7일 동안은 같은 Google·Apple 계정이나 같은 이메일 주소로 다시
-가입할 수 없습니다. 삭제와 재가입을 반복해 레이팅을 되돌리거나 신고를 회피하는
+가입할 수 없습니다. 삭제와 재가입을 반복해 랭크 점수를 되돌리거나 신고를 회피하는
 것을 막기 위한 조치입니다. 7일이 지나면 별도의 절차 없이 다시 가입할 수
 있습니다.
 
@@ -145,10 +145,10 @@
 
 계정을 삭제하지 않고 특정 정보만 지우고 싶다면 contact@jaywithme.com 으로 요청해
 주세요. 어떤 정보를 지우기를 원하는지 적어 주시면 확인 후 처리해 드립니다.
-닉네임은 앱 내 마이페이지에서 언제든지 직접 변경할 수 있습니다.
+닉네임은 앱 내 마이페이지에서 직접 변경할 수 있습니다(7일에 한 번).
 
 다만 대결 기록과 데일리 스도쿠 기록은 삭제해 드릴 수 없습니다. 하나의 대결
-기록은 상대방의 전적이자 레이팅 이력이기도 하여, 지우면 다른 이용자의 기록이
+기록은 상대방의 전적이자 랭크 점수 이력이기도 하여, 지우면 다른 이용자의 기록이
 함께 훼손되기 때문입니다. 이 기록에는 개인을 식별할 수 있는 정보가 남지
 않습니다.
 
@@ -202,9 +202,9 @@ contact@jaywithme.com and we will process the request after verifying your ident
 
 ■ Data retained, and why
 
-- Race records (results, rating changes, timestamps) and daily sudoku records
+- Race records (results, rank point changes, timestamps) and daily sudoku records
   are kept in anonymized form rather than deleted. A race record is also the
-  opponent's history and rating trail, so erasing it would damage another
+  opponent's history and rank point trail, so erasing it would damage another
   player's record. In these records you appear only as "Deleted user", with
   nothing that identifies you.
 - Reports you filed are kept for up to one year after they are resolved, for
@@ -219,18 +219,18 @@ contact@jaywithme.com and we will process the request after verifying your ident
 
 For 7 days after you delete your account, neither the same Google or Apple
 account nor the same email address can be used to sign up again. This stops
-deletion and re-registration from being used to undo a rating or walk away
+deletion and re-registration from being used to undo rank points or walk away
 from a report. After 7 days you can sign up again with no further steps.
 
 ■ Deleting some data while keeping your account
 
 If you want specific information erased without closing your account, write to
 contact@jaywithme.com and say what you would like removed; we will handle it after
-confirming the request. Your nickname can be changed at any time from My Page
-in the app.
+confirming the request. Your nickname can be changed from My Page in the app,
+once every 7 days.
 
 Race and daily sudoku records are the exception. A race record is also the
-opponent's history and rating trail, so removing it would damage another
+opponent's history and rank point trail, so removing it would damage another
 player's record. Those records hold nothing that identifies you.
 
 ■ Retention periods
@@ -282,34 +282,34 @@ contact@jaywithme.com</pre>
 
 ■ 保管されるデータとその理由
 
-- 対戦記録(勝敗、レーティングの変動、対戦日時)および今日のナンプレの記録は削除されず、
-  匿名化された状態で残ります。1件の対戦記録は対戦相手の戦績であり、レーティング
-  履歴でもあるため、これを消去すると他の利用者の記録もあわせて損なわれるためです。
-  これらの記録において利用者は“退会したユーザー”としてのみ表示され、個人を識別できる
+- 対戦記録（勝敗、ランクポイントの変動、対戦日時）および今日のナンプレの記録は、削除されず
+  匿名化された状態で保持されます。一つの対戦記録は相手の戦績であり、ランク
+  ポイントの履歴でもあるため、これを削除すると他の利用者の記録も損なわれるためです。
+  これらの記録において、利用者は“退会したユーザー”としてのみ表示され、個人を識別できる
   情報は残りません。
-- 通報の記録は、審査および再発防止のため、処理完了後最大1年間保管した後に
-  廃棄します。
-- ログイン識別子(メールアドレス、ソーシャルログイン識別子)の一方向ハッシュ値を7日間
+- 通報記録は、確認および再発防止のため、処理完了後最大1年間保管した後
+  破棄します。
+- ログイン識別子（メールアドレス、ソーシャルログイン識別子）の一方向ハッシュ値を7日間
   保管します。これは下記の“再登録の制限”を確認するためのものであり、ハッシュ値は元の値に
-  戻すことができず、新規登録が同一のアカウントによるものかを照合する目的にのみ使用されます。7日が
-  経過すると自動的に廃棄され、利用者の記録や身元とは紐付けられません。
+  戻すことができず、新規登録が同一のアカウントによるものかを照合する用途にのみ使用されます。7日が
+  経過すると自動的に破棄され、利用者の記録や身元とは紐付けられません。
 
 ■ 再登録の制限
 
 アカウントを削除した後7日間は、同じGoogle・Appleアカウントまたは同じメールアドレスで再度
-登録することはできません。削除と再登録を繰り返してレーティングを元に戻したり、通報を回避したりする
+登録することはできません。削除と再登録を繰り返してランクポイントを元に戻したり、通報を回避したりする
 ことを防ぐための措置です。7日が経過すると、特別な手続きなしに再度登録することが
 できます。
 
 ■ アカウントを維持したまま一部のデータのみを削除する
 
-アカウントを削除せずに特定の情報のみを消去したい場合は、contact@jaywithme.com までご依頼
-ください。消去を希望する情報をお書き添えいただければ、確認の上で処理いたします。
-ニックネームは、アプリ内のマイページからいつでもご自身で変更できます。
+アカウントを削除せずに特定の情報のみを削除したい場合は、contact@jaywithme.com までご依頼
+ください。削除を希望する情報をご記載いただければ、確認のうえ対応いたします。
+ニックネームは、アプリ内のマイページから直接変更できます（7日に1回）。
 
-ただし、対戦記録および今日のナンプレの記録は削除いたしかねます。1件の対戦
-記録は対戦相手の戦績であり、レーティング履歴でもあるため、消去すると他の利用者の記録も
-あわせて損なわれるためです。これらの記録には、個人を識別できる情報は残り
+ただし、対戦記録および今日のナンプレの記録は削除することができません。一つの対戦
+記録は相手の戦績であり、ランクポイントの履歴でもあるため、削除すると他の利用者の記録も
+損なわれるためです。これらの記録には、個人を識別できる情報は残り
 ません。
 
 ■ 保管期間
@@ -361,34 +361,34 @@ contact@jaywithme.com
 
 ■ 保留的資料及其原因
 
-- 對戰紀錄（勝負、積分變動、對戰時間）與每日數獨紀錄不會刪除，
-  而是以匿名化處理後的狀態保留。由於一筆對戰紀錄同時也是對手的戰績與積分
-  歷程，若予以刪除，將一併損及其他使用者的紀錄。
-  在這些紀錄中，使用者僅會顯示為“已刪除的使用者”，不會留下任何可識別個人的
-  資訊。
-- 檢舉紀錄為供審查及防止再次發生，將於處理完成後保留最多 1 年，之後
+- 對戰紀錄（勝負、排位積分變動、對戰時間）與每日數獨紀錄不會刪除，
+  而是以匿名化方式保留。每一筆對戰紀錄同時也是對手的戰績與排位
+  積分歷程，若予以刪除，將一併損及其他使用者的紀錄。
+  在這些紀錄中，使用者僅會顯示為“已退出的使用者”，不會留存任何可識別
+  個人身分的資訊。
+- 檢舉紀錄將於處理完成後最多保存1年，以供審查及防止再次發生，期滿後
   予以銷毀。
-- 登入識別碼（電子郵件地址、社群登入識別碼）的單向雜湊值將保留 7 天。
-  此係為確認下方“重新註冊限制”之用；雜湊值無法還原為原始值，
-  且僅用於比對新註冊是否為同一帳號。7 天
-  期滿後將自動銷毀，且不會與使用者的紀錄或身分產生關聯。
+- 登入識別碼（電子郵件地址、社群登入識別碼）的單向雜湊值將保存7天。
+  此舉僅為確認下方所述之“重新註冊限制”，雜湊值無法還原為原始值，
+  且僅用於比對新註冊是否為同一帳號。7天
+  期滿後將自動銷毀，且不會與使用者的紀錄或身分產生連結。
 
 ■ 重新註冊限制
 
-刪除帳號後的 7 天內，無法使用同一個 Google 或 Apple 帳號，或同一個電子郵件地址
-重新註冊。此措施旨在防止透過反覆刪除及重新註冊來回復積分或規避檢舉。
-7 天期滿後，無須任何額外程序即可重新
+刪除帳號後7天內，無法使用同一個Google、Apple帳號或同一個電子郵件地址重新
+註冊。此項措施旨在防止透過反覆刪除及重新註冊來回復排位積分或規避檢舉。
+7天期滿後，無須辦理任何額外程序，即可重新
 註冊。
 
 ■ 保留帳號並僅刪除部分資料
 
-若您希望在不刪除帳號的情況下僅清除特定資訊，請寄信至 contact@jaywithme.com 提出
-申請。請註明您希望清除的資訊，我們將於確認後為您處理。
-暱稱可隨時於應用程式內的「我的頁面」自行變更。
+若您不想刪除帳號，僅希望刪除特定資訊，請寄信至 contact@jaywithme.com 提出
+申請。請註明您希望刪除哪些資訊，我們將於確認後為您處理。
+暱稱可於App內的“我的頁面”自行變更（每7天限一次）。
 
-但對戰紀錄與每日數獨紀錄恕無法刪除。由於一筆對戰
-紀錄同時也是對手的戰績與積分歷程，若予以刪除，將一併損及其他使用者的
-紀錄。這些紀錄中不會留下任何可識別個人的
+但對戰紀錄與每日數獨紀錄恕無法刪除。每一筆對戰
+紀錄同時也是對手的戰績與排位積分歷程，若予以刪除，將一併損及其他使用者的紀錄。
+這些紀錄不會留存任何可識別個人身分的
 資訊。
 
 ■ 保留期間
@@ -440,37 +440,36 @@ Nach Prüfung Ihrer Identität bearbeiten wir Ihre Anfrage.
 
 ■ Aufbewahrte Daten und Gründe dafür
 
-- Duellergebnisse (Sieg/Niederlage, Wertungsänderungen, Zeitpunkt des Duells) und
-  Ergebnisse des Tages-Sudokus werden nicht gelöscht, sondern anonymisiert aufbewahrt.
-  Ein Duellergebnis ist zugleich Teil der Bilanz und Wertungshistorie des Gegners;
-  eine Löschung würde daher auch die Daten anderer Nutzer beschädigen.
-  In diesen Daten erscheinen Sie nur als "Gelöschter Nutzer"; Angaben, die Sie
-  identifizieren könnten, bleiben nicht erhalten.
-- Meldungen werden zur Prüfung und zur Verhinderung erneuter Verstöße nach ihrer
-  Bearbeitung höchstens 1 Jahr aufbewahrt und anschließend vernichtet.
-- Ein Einweg-Hashwert Ihrer Anmeldekennungen (E-Mail-Adresse, Kennung der sozialen
-  Anmeldung) wird 7 Tage lang aufbewahrt. Er dient der Prüfung der unten beschriebenen
-  "Sperre für erneute Registrierung". Ein Hashwert lässt sich nicht in den ursprünglichen Wert
-  zurückverwandeln und wird nur zum Abgleich verwendet, ob eine neue Registrierung dasselbe
-  Konto betrifft. Nach 7 Tagen wird er automatisch vernichtet; er ist nicht mit Ihren Daten oder Ihrer Identität verknüpft.
+- Duellaufzeichnungen (Ergebnisse, Änderungen der Ranglistenpunkte, Zeitpunkt des Duells) und
+  Tages-Sudoku-Aufzeichnungen werden nicht gelöscht, sondern anonymisiert aufbewahrt. Jede
+  Duellaufzeichnung ist zugleich Teil der Spielhistorie und des Ranglistenpunkteverlaufs des Gegners;
+  eine Löschung würde daher auch die Aufzeichnungen anderer Nutzer beschädigen.
+  In diesen Aufzeichnungen erscheinen Sie nur als "Gelöschter Nutzer"; es verbleiben keine
+  Informationen, anhand derer Sie persönlich identifiziert werden können.
+- Aufzeichnungen zu Meldungen werden zur Prüfung und zur Verhinderung erneuter Verstöße nach Abschluss der Bearbeitung höchstens 1 Jahr aufbewahrt und
+  anschließend vernichtet.
+- Ein Einweg-Hashwert Ihrer Anmeldekennungen (E-Mail-Adresse, Social-Login-Kennung) wird 7 Tage lang
+  aufbewahrt. Er dient ausschließlich der Durchsetzung der unten beschriebenen "Sperrfrist für die erneute Registrierung". Der Hashwert kann nicht in den ursprünglichen Wert
+  zurückverwandelt werden und wird nur zum Abgleich verwendet, ob eine neue Registrierung dasselbe Konto betrifft. Nach Ablauf von 7
+  Tagen wird er automatisch vernichtet und ist weder mit Ihren Aufzeichnungen noch mit Ihrer Identität verknüpft.
 
 ■ Sperre für erneute Registrierung
 
-Nach der Löschung Ihres Kontos können Sie sich 7 Tage lang weder mit demselben Google- oder
-Apple-Konto noch mit derselben E-Mail-Adresse erneut registrieren. Diese Maßnahme soll verhindern,
-dass durch wiederholtes Löschen und Neuregistrieren die Wertung zurückgesetzt oder Meldungen umgangen werden.
-Nach Ablauf der 7 Tage ist eine erneute Registrierung ohne weiteres Verfahren möglich.
+Nach der Löschung Ihres Kontos können Sie sich 7 Tage lang weder mit demselben Google- oder Apple-Konto
+noch mit derselben E-Mail-Adresse erneut registrieren. Diese Maßnahme soll verhindern, dass durch wiederholtes Löschen und erneutes Registrieren
+Ranglistenpunkte zurückgesetzt oder Meldungen umgangen werden. Nach Ablauf von 7 Tagen können Sie sich ohne weiteres Verfahren
+erneut registrieren.
 
 ■ Nur einzelne Daten löschen und das Konto behalten
 
-Wenn Sie nur bestimmte Angaben löschen möchten, ohne Ihr Konto zu löschen, wenden Sie sich bitte an contact@jaywithme.com.
-Teilen Sie uns mit, welche Angaben gelöscht werden sollen; wir bearbeiten Ihre Anfrage nach Prüfung.
-Ihren Nickname können Sie jederzeit selbst unter "Mein Profil" in der App ändern.
+Wenn Sie nur bestimmte Informationen löschen lassen möchten, ohne Ihr Konto zu löschen, wenden Sie sich bitte an contact@jaywithme.com.
+Geben Sie an, welche Informationen gelöscht werden sollen; wir bearbeiten Ihre Anfrage nach Prüfung.
+Ihren Nicknamen können Sie in der App unter "Meine Seite" selbst ändern (einmal alle 7 Tage).
 
-Duellergebnisse und Ergebnisse des Tages-Sudokus können wir jedoch nicht löschen. Ein
-Duellergebnis ist zugleich Teil der Bilanz und Wertungshistorie des Gegners; eine Löschung würde
-daher auch die Daten anderer Nutzer beschädigen. Diese Daten enthalten keine Angaben, die Sie
-identifizieren könnten.
+Duellaufzeichnungen und Tages-Sudoku-Aufzeichnungen können wir jedoch nicht löschen. Jede Duellaufzeichnung
+ist zugleich Teil der Spielhistorie und des Ranglistenpunkteverlaufs des Gegners, sodass eine Löschung auch die Aufzeichnungen
+anderer Nutzer beschädigen würde. Diese Aufzeichnungen enthalten keine Informationen, anhand derer Sie
+persönlich identifiziert werden können.
 
 ■ Aufbewahrungsfristen
 
@@ -521,39 +520,35 @@ La procesaremos después de verificar su identidad.
 
 ■ Datos que se conservan y por qué
 
-- Los registros de partidas (resultados, variaciones de puntuación y hora de la partida)
-  y los registros del Sudoku del día no se eliminan, sino que se conservan anonimizados.
-  Cada registro de partida forma parte también del historial y de la puntuación del
-  rival, por lo que eliminarlo dañaría los registros de otros usuarios.
-  En estos registros usted figura únicamente como "Usuario eliminado" y no queda
-  ninguna información que permita identificarlo.
-- Los registros de reportes se conservan por un máximo de 1 año una vez resueltos,
-  para su revisión y para prevenir reincidencias, y luego se destruyen.
-- Se conserva durante 7 días un hash unidireccional de sus identificadores de inicio de
-  sesión (dirección de correo electrónico e identificador de inicio de sesión social).
-  Su único fin es aplicar la "Restricción para volver a registrarse" descrita más abajo:
-  el hash no puede revertirse al valor original y solo se usa para comprobar si un nuevo
-  registro corresponde a la misma cuenta. Se destruye automáticamente al cabo de
-  7 días y no está vinculado a sus registros ni a su identidad.
+- Los registros de partidas (resultados, variaciones de los puntos de clasificación y fecha y hora de cada partida)
+  y los registros del Sudoku del día no se eliminan, sino que se conservan de forma anonimizada. Cada registro de partida
+  forma parte también del historial y de los puntos de clasificación del oponente, por lo que eliminarlo dañaría el registro de otro usuario.
+  En estos registros, el usuario figura únicamente como "Usuario eliminado" y no se conserva ninguna
+  información que permita identificarlo.
+- Los registros de denuncias se conservan durante un máximo de 1 año después de su resolución, con fines de revisión y prevención de reincidencias,
+  y posteriormente se destruyen.
+- Se conserva durante 7 días un valor hash unidireccional de los identificadores de inicio de sesión (dirección de correo electrónico e identificador de inicio de sesión social).
+  Su único fin es verificar la "Restricción para volver a registrarse" que se describe más abajo. El valor hash no puede revertirse
+  al valor original y se utiliza exclusivamente para comprobar si un nuevo registro corresponde a la misma cuenta. Transcurridos 7 días,
+  se destruye automáticamente y no se vincula con los registros ni con la identidad del usuario.
 
 ■ Restricción para volver a registrarse
 
-Durante los 7 días posteriores a la eliminación de su cuenta, no podrá volver a registrarse
-con la misma cuenta de Google o Apple ni con la misma dirección de correo electrónico.
-Esta medida busca impedir que se elimine la cuenta y se vuelva a crear para revertir la
-puntuación o evadir reportes. Transcurridos los 7 días, podrá registrarse nuevamente sin
-ningún trámite adicional.
+Durante los 7 días posteriores a la eliminación de su cuenta, no podrá volver a registrarse con la misma cuenta de Google o Apple
+ni con la misma dirección de correo electrónico. Esta medida tiene por objeto impedir que se elimine la cuenta y se vuelva a registrar de forma reiterada
+para revertir los puntos de clasificación o eludir denuncias. Transcurridos 7 días, podrá volver a registrarse
+sin necesidad de ningún trámite adicional.
 
 ■ Eliminar solo algunos datos y conservar la cuenta
 
-Si desea borrar solo cierta información sin eliminar su cuenta, envíe su solicitud a
-contact@jaywithme.com indicando qué información desea borrar; la procesaremos después de verificarla.
-Puede cambiar su apodo directamente en cualquier momento desde Mi página en la aplicación.
+Si desea eliminar únicamente determinada información sin eliminar su cuenta, envíe su solicitud a contact@jaywithme.com.
+Indique qué información desea eliminar y la procesaremos tras verificar la solicitud.
+Puede cambiar su apodo directamente desde Mi página en la app (una vez cada 7 días).
 
-Sin embargo, no podemos eliminar los registros de partidas ni los del Sudoku del día.
-Cada registro de partida forma parte también del historial y de la puntuación del rival,
-por lo que eliminarlo dañaría los registros de otros usuarios. Estos registros no
-contienen información que permita identificarlo.
+No obstante, no es posible eliminar los registros de partidas ni los registros del Sudoku del día. Cada registro
+de partida forma parte también del historial y de los puntos de clasificación del oponente, por lo que eliminarlo dañaría el registro
+de otro usuario. Estos registros no conservan ninguna información que permita
+identificarlo.
 
 ■ Períodos de conservación
 
@@ -604,34 +599,35 @@ Nous la traiterons après avoir vérifié votre identité.
 
 ■ Données conservées et raisons de leur conservation
 
-- Les historiques de matchs (victoires et défaites, variations de cote, horaires des matchs) et les historiques du Sudoku du jour ne sont pas supprimés,
-  mais conservés sous forme anonymisée. En effet, un historique de match constitue aussi le palmarès et l'historique de cote
-  de l'adversaire : le supprimer porterait atteinte aux données d'un autre utilisateur.
-  Dans ces historiques, vous apparaissez uniquement comme "Utilisateur supprimé", et aucune information permettant de vous identifier
-  n'est conservée.
-- Les signalements sont conservés pendant une durée maximale d'un an après leur traitement, à des fins d'examen et de prévention des récidives, puis
-  détruits.
-- Une empreinte (hachage à sens unique) de vos identifiants de connexion (adresse e-mail, identifiant de connexion via un réseau social) est conservée pendant 7 jours.
-  Elle sert uniquement à appliquer la "restriction de réinscription" décrite ci-dessous ; une empreinte ne peut pas être reconvertie en sa valeur d'origine
-  et sert seulement à vérifier si une nouvelle inscription correspond au même compte. À l'issue des 7 jours,
-  elle est automatiquement détruite ; elle n'est liée ni à vos historiques ni à votre identité.
+- L'historique des matchs (résultats, variations des points de classement, date et heure) et
+  l'historique du Sudoku du jour ne sont pas supprimés, mais conservés sous forme anonymisée. Un
+  match fait également partie du bilan et de l'historique des points de classement de l'adversaire :
+  le supprimer porterait donc atteinte aux données d'un autre joueur. Dans cet historique, vous
+  apparaissez uniquement comme "Utilisateur supprimé", sans aucune information permettant de vous identifier.
+- Les signalements sont conservés pendant une durée maximale d'un an après leur traitement, à des fins
+  d'examen et de prévention des récidives, puis détruits.
+- Une valeur de hachage à sens unique de vos identifiants de connexion (adresse e-mail, identifiant de
+  connexion via un réseau social) est conservée pendant 7 jours. Elle sert uniquement à appliquer la
+  "Restriction de réinscription" ci-dessous : elle ne peut pas être reconvertie en sa valeur d'origine et
+  n'est utilisée que pour vérifier si une nouvelle inscription correspond au même compte. Elle est détruite
+  automatiquement au bout de 7 jours et n'est liée ni à votre historique ni à votre identité.
 
 ■ Restriction de réinscription
 
-Pendant 7 jours après la suppression de votre compte, vous ne pouvez pas vous réinscrire avec le même compte Google ou Apple
-ni avec la même adresse e-mail. Cette mesure vise à empêcher que des suppressions et réinscriptions successives servent à réinitialiser une cote ou à échapper
-à un signalement. Passé ce délai de 7 jours, vous pouvez vous réinscrire sans aucune démarche
-particulière.
+Pendant 7 jours après la suppression de votre compte, vous ne pouvez pas vous réinscrire avec le même compte
+Google ou Apple ni avec la même adresse e-mail. Cette mesure vise à empêcher que des suppressions et réinscriptions
+successives servent à annuler des points de classement ou à échapper à un signalement. Passé ce délai de 7 jours,
+vous pouvez vous réinscrire sans aucune démarche particulière.
 
 ■ Supprimer uniquement certaines données tout en conservant votre compte
 
-Si vous souhaitez effacer uniquement certaines informations sans supprimer votre compte, adressez votre demande à contact@jaywithme.com.
-Indiquez-nous les informations que vous souhaitez voir effacées : nous traiterons votre demande après vérification.
-Vous pouvez modifier votre pseudo vous-même à tout moment depuis Ma page dans l'application.
+Si vous souhaitez effacer uniquement certaines informations sans supprimer votre compte, veuillez en faire la demande à
+contact@jaywithme.com. Précisez les informations que vous souhaitez voir effacées ; nous traiterons votre demande après vérification.
+Vous pouvez modifier votre pseudo directement depuis Ma page dans l'application (une fois tous les 7 jours).
 
-Toutefois, les historiques de matchs et du Sudoku du jour ne peuvent pas être supprimés. Un historique de
-match constitue aussi le palmarès et l'historique de cote de l'adversaire : le supprimer porterait atteinte aux données
-d'un autre utilisateur. Ces historiques ne contiennent aucune information permettant de vous
+Toutefois, l'historique des matchs et l'historique du Sudoku du jour ne peuvent pas être supprimés. Un match
+fait également partie du bilan et de l'historique des points de classement de l'adversaire : le supprimer porterait
+atteinte aux données d'un autre joueur. Cet historique ne contient aucune information permettant de vous
 identifier.
 
 ■ Durées de conservation
@@ -683,35 +679,41 @@ A solicitação será processada após a verificação da sua identidade.
 
 ■ Dados mantidos e o motivo
 
-- Os registros de partidas (vitórias e derrotas, variações de rating, horário da partida) e os
-  registros do Sudoku do Dia não são excluídos e permanecem em forma anonimizada. Cada registro
-  de partida também faz parte do histórico e do rating do adversário, de modo que apagá-lo
-  danificaria os registros de outro usuário. Nesses registros, você aparece apenas como "Usuário excluído",
-  e não permanece nenhuma informação que permita identificar a pessoa.
-- Os registros de denúncias são mantidos por até 1 ano após a conclusão do seu tratamento, para fins
-  de análise e prevenção de reincidência, e em seguida são destruídos.
-- O valor de hash unidirecional dos identificadores de login (endereço de e-mail e identificador de
-  login social) é mantido por 7 dias. Ele serve para verificar a "Restrição de novo cadastro" descrita abaixo;
-  o hash não pode ser revertido ao valor original e é usado apenas para verificar se um novo cadastro
-  corresponde à mesma conta. Após 7 dias, é destruído automaticamente e não fica vinculado aos seus registros nem à sua identidade.
+- Os registros de partidas (resultados, variações nos pontos de ranking e horário
+  das partidas) e os registros do Sudoku do Dia não são excluídos, permanecendo
+  de forma anonimizada. Cada registro de partida também integra o histórico e o
+  registro de pontos de ranking do adversário; excluí-lo, portanto, prejudicaria
+  os registros de outro usuário. Nesses registros, o usuário aparece apenas como
+  "Usuário excluído", sem nenhuma informação que permita identificá-lo.
+- Os registros de denúncias são mantidos por até 1 ano após a conclusão de seu
+  processamento, para fins de análise e prevenção de reincidência, e depois
+  destruídos.
+- O hash unidirecional dos identificadores de login (endereço de e-mail e
+  identificador de login social) é mantido por 7 dias. Sua finalidade é verificar
+  a "Restrição de novo cadastro" descrita abaixo; o hash não pode ser revertido
+  ao valor original e é utilizado exclusivamente para verificar se um novo
+  cadastro corresponde à mesma conta. Após 7 dias, ele é destruído
+  automaticamente e não é vinculado a nenhum registro nem à identidade do usuário.
 
 ■ Restrição de novo cadastro
 
-Durante 7 dias após a exclusão da conta, não é possível se cadastrar novamente com a mesma conta Google ou Apple
-nem com o mesmo endereço de e-mail. Essa medida impede que a exclusão e o novo cadastro sejam repetidos
-para reverter o rating ou escapar de denúncias. Após 7 dias, você poderá se cadastrar novamente sem nenhum
-procedimento adicional.
+Durante 7 dias após a exclusão da conta, não é possível se cadastrar novamente com a
+mesma conta Google ou Apple nem com o mesmo endereço de e-mail. Essa medida visa
+impedir que a exclusão e o novo cadastro sejam repetidos para restaurar pontos de
+ranking ou evitar denúncias. Após 7 dias, é possível se cadastrar novamente sem
+nenhum procedimento adicional.
 
 ■ Excluir apenas parte dos dados mantendo a conta
 
-Se quiser apagar apenas determinadas informações sem excluir a conta, envie sua solicitação para
-contact@jaywithme.com. Informe quais informações deseja apagar e a solicitação será processada após a verificação.
-O apelido pode ser alterado diretamente, a qualquer momento, na tela Minha Página do aplicativo.
+Caso deseje apagar apenas determinadas informações sem excluir a conta, envie sua
+solicitação para contact@jaywithme.com. Informe quais informações deseja apagar e, após a
+verificação, atenderemos ao pedido.
+O apelido pode ser alterado diretamente em Minha Página, no app (uma vez a cada 7 dias).
 
-No entanto, os registros de partidas e do Sudoku do Dia não podem ser excluídos. Cada registro
-de partida também faz parte do histórico e do rating do adversário, de modo que apagá-lo danificaria
-os registros de outro usuário. Esses registros não contêm nenhuma informação que permita
-identificar a pessoa.
+No entanto, não é possível excluir os registros de partidas e do Sudoku do Dia. Cada
+registro de partida também integra o histórico e o registro de pontos de ranking do
+adversário, de modo que excluí-lo prejudicaria os registros de outro usuário. Esses
+registros não contêm nenhuma informação que permita identificar o usuário.
 
 ■ Períodos de retenção
 
